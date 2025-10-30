@@ -1,0 +1,83 @@
+{
+  "name": "@ton-pay/ui",
+  "version": "0.1.0",
+  "description": "Vanilla JavaScript UI components for TonPay SDK",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./embed": {
+      "types": "./dist/ton-pay-embed.d.ts",
+      "browser": "./dist/ton-pay-embed.js",
+      "import": "./dist/ton-pay-embed.mjs",
+      "require": "./dist/ton-pay-embed.cjs"
+    },
+    "./vanilla": {
+      "types": "./dist/ton-pay-vanilla.d.ts",
+      "import": "./dist/ton-pay-vanilla.mjs",
+      "require": "./dist/ton-pay-vanilla.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup && tsup --config tsup.embed.config.ts",
+    "dev": "tsup --watch",
+    "dev:embed": "tsup --config tsup.embed.config.ts --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test-server.js",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "tsup": {
+    "entry": {
+      "index": "src/index.ts",
+      "ton-pay-vanilla": "src/ton-pay-vanilla.ts"
+    },
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "dts": true,
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@tonconnect/ui": "^2.2.0"
+  },
+  "devDependencies": {
+    "@tonconnect/sdk": "^2.2.0",
+    "@types/node": "^24.7.1"
+  },
+  "keywords": [
+    "ton",
+    "tonpay",
+    "ui",
+    "vanilla",
+    "javascript",
+    "components"
+  ],
+  "author": "RSquad Blockchain Lab",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RSquad/ton-pay.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://docs.tonpay.tech",
+  "bugs": {
+    "url": "https://github.com/RSquad/ton-pay/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

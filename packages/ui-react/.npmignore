@@ -1,0 +1,14 @@
+src/
+test/
+*.ts
+!*.d.ts
+tsconfig.json
+.DS_Store
+*.log
+node_modules/
+.env
+.env.*
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js

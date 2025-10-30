@@ -1,0 +1,63 @@
+{
+  "name": "@ton-pay/api",
+  "version": "0.1.0",
+  "description": "API functions for TonPay SDK",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "dts": true,
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "keywords": [
+    "ton",
+    "tonpay",
+    "blockchain",
+    "transfer",
+    "api"
+  ],
+  "author": "RSquad Blockchain Lab",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RSquad/ton-pay.git",
+    "directory": "packages/api"
+  },
+  "homepage": "https://docs.tonpay.tech",
+  "bugs": {
+    "url": "https://github.com/RSquad/ton-pay/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

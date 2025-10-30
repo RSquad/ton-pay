@@ -1,0 +1,16 @@
+src/
+test/
+*.ts
+!*.d.ts
+tsconfig.json
+tsup.embed.config.ts
+.DS_Store
+*.log
+node_modules/
+.env
+.env.*
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+test-server.js

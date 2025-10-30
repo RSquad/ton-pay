@@ -1,0 +1,74 @@
+{
+  "name": "@ton-pay/ui-react",
+  "version": "0.1.0",
+  "description": "React components and hooks for TonPay SDK",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:button-react": "cd test && bun install && bun run dev",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "dts": true,
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true,
+    "external": [
+      "react",
+      "react-dom"
+    ]
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "@tonconnect/ui-react": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0"
+  },
+  "keywords": [
+    "ton",
+    "tonpay",
+    "react",
+    "ui",
+    "components",
+    "hooks"
+  ],
+  "author": "RSquad Blockchain Lab",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RSquad/ton-pay.git",
+    "directory": "packages/ui-react"
+  },
+  "homepage": "https://docs.tonpay.tech",
+  "bugs": {
+    "url": "https://github.com/RSquad/ton-pay/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

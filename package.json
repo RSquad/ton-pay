@@ -1,0 +1,82 @@
+{
+  "name": "ton-pay-sdk",
+  "private": true,
+  "version": "0.1.0",
+  "description": "TonPay SDK - modular payment solutions for TON blockchain",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "scripts": {
+    "build": "bun run build:packages && tsup",
+    "build:packages": "cd packages/api && bun run build && cd ../ui-react && bun i && bun run build && cd ../ui && bun i && bun run build && cd ../..",
+    "dev": "tsup --watch",
+    "clean": "rm -rf packages/*/dist && rm -rf dist",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'No lint configured'",
+    "docs:dev": "mintlify dev --no-browser --port 3333",
+    "test:button-react": "cd packages/ui-react && bun run test:button-react"
+  },
+  "tsup": {
+    "entry": [
+      "index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "dts": true,
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^24.7.1",
+    "node-plantuml": "^0.9.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.90.2",
+    "@ton/core": "^0.61.0",
+    "@ton/crypto": "^3.3.0",
+    "@tonconnect/ui-react": "^2.2.0",
+    "react": "^18.0.0",
+    "toncenter-v3-api": "^2.0.3"
+  },
+  "keywords": [
+    "ton",
+    "tonpay",
+    "blockchain",
+    "payment",
+    "sdk"
+  ],
+  "author": "RSquad Blockchain Lab",
+  "license": "Apache License 2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RSquad/ton-pay.git"
+  },
+  "homepage": "https://docs.tonpay.tech",
+  "bugs": {
+    "url": "https://github.com/RSquad/ton-pay/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

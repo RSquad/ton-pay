@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TonPay Vanilla Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+    {
+      "imports": {
+        "@tonconnect/ui": "https://esm.sh/@tonconnect/ui@2.0.9"
+      }
+    }
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #f5f7fb; margin: 0; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 28px; margin: 0 0 24px; }
+        .section { background: #fff; border-radius: 16px; padding: 24px; margin: 16px 0; box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+        .section-title { font-size: 18px; font-weight: 700; padding-bottom: 10px; border-bottom: 2px solid #0098EA; margin-bottom: 16px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+        .card { background: #f8fafc; border: 1px solid #e9eef5; border-radius: 12px; padding: 20px; }
+        .label { font-size: 12px; font-weight: 700; color: #5b6470; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 12px; }
+        .btn-wrap { display: flex; justify-content: center; }
+        .code { margin-top: 12px; background: #2d3748; color: #68d391; padding: 10px; border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; }
+        .v-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 13px 10px; width: 100%; height: 44px; max-width: 300px; color: #fff; font-weight: 600; font-size: 20px; line-height: 25px; border-radius: 8px; border: none; cursor: pointer; transition: filter .12s ease, transform .12s ease; }
+        .v-btn:hover { filter: brightness(.92); }
+        .v-btn:active { transform: translateY(1px); filter: brightness(.85); }
+        .glyph { width: 24px; height: 24px; display: inline-flex; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TonPay Vanilla Showcase</h1>
+        <div class="section">
+            <div class="section-title">Default</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="label">Long + Rounded (8px)</div>
+                    <div class="btn-wrap"><div id="btn-def-long"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?preset=default&variant=long&borderRadius=8&containerId=btn-def-long&callback=payWithTon"></script>
+
+                <div class="card">
+                    <div class="label">Short + Rounded (8px)</div>
+                    <div class="btn-wrap"><div id="btn-def-short"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?preset=default&variant=short&borderRadius=8&containerId=btn-def-short&callback=payWithTon"></script>
+
+                <div class="card">
+                    <div class="label">Long + Pill (99px)</div>
+                    <div class="btn-wrap"><div id="btn-def-pill"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?preset=default&variant=long&borderRadius=99&containerId=btn-def-pill&callback=payWithTon"></script>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Gradient</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="label">Long + Rounded (8px)</div>
+                    <div class="btn-wrap"><div id="btn-grad-long"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?preset=gradient&variant=long&borderRadius=8&containerId=btn-grad-long&callback=payWithTon"></script>
+
+                <div class="card">
+                    <div class="label">Short + Pill (99px)</div>
+                    <div class="btn-wrap"><div id="btn-grad-short-pill"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?preset=gradient&variant=short&borderRadius=99&containerId=btn-grad-short-pill&callback=payWithTon"></script>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Black</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="label">Long + Rounded (8px)</div>
+                    <div class="btn-wrap"><div id="btn-black-long"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?bgColor=%23000000&textColor=%23FFFFFF&variant=long&borderRadius=8&containerId=btn-black-long&callback=payWithTon"></script>
+
+                <div class="card">
+                    <div class="label">Short + Pill (99px)</div>
+                    <div class="btn-wrap"><div id="btn-black-short-pill"></div></div>
+                </div>
+                <script src="../dist/ton-pay-embed.js?bgColor=%23000000&textColor=%23FFFFFF&variant=short&borderRadius=99&containerId=btn-black-short-pill&callback=payWithTon"></script>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../dist/ton-pay-vanilla.mjs"></script>
+    <script type="module">
+      import { createTonPay } from "../dist/ton-pay-vanilla.mjs";   
+      const tonPay = createTonPay({ manifestUrl: "https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json" });
+      window.payWithTon = async () => {
+        try {
+          const result = await tonPay.pay(async (senderAddr) => {
+            const message = {
+              address: "EQC........................................RECIPIENT",
+              amount: "1000000",
+              payload: "dGVzdA==",
+            };
+            return { message };
+          });
+          console.log(result.txResult);
+        } catch (e) {
+          console.log("Demo pay error (expected without valid data):", e);
+        }
+      };
+    </script>
+</body>
+</html>
+
+
