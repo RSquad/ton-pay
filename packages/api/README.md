@@ -1,6 +1,6 @@
 # @ton-pay/api
 
-Core API functions for TonPay SDK - create transfers, check status, and verify webhooks.
+Core API functions for TON Pay SDK - create transfers, check status, and verify webhooks.
 
 ## Documentation
 
@@ -24,12 +24,12 @@ import {
   USDT,
 } from "@ton-pay/api";
 
-// Create a TonPay transfer
+// Create a TON Pay transfer
 const transfer = await createTonPayTransfer(
   {
     amount: 10.5,
     asset: TON,
-    recipientAddr: "EQC...",
+    recipientAddr: "EQC...", // Optional if API key is provided
     senderAddr: "EQC...",
     commentToSender: "Payment for order #123",
     commentToRecipient: "Thank you!",

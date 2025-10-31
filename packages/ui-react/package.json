@@ -1,7 +1,7 @@
 {
   "name": "@ton-pay/ui-react",
-  "version": "0.1.0",
-  "description": "React components and hooks for TonPay SDK",
+  "version": "0.1.1",
+  "description": "React components and hooks for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -33,9 +33,17 @@
     "splitting": true,
     "sourcemap": true,
     "clean": true,
+    "platform": "browser",
+    "skipNodeModulesBundle": true,
     "external": [
       "react",
-      "react-dom"
+      "react-dom",
+      "@tonconnect/ui-react",
+      "@tonconnect/ui",
+      "@tonconnect/sdk",
+      "@tonconnect/isomorphic-eventsource",
+      "@tonconnect/isomorphic-fetch",
+      "@tonconnect/protocol"
     ]
   },
   "peerDependencies": {

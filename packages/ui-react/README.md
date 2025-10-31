@@ -1,6 +1,6 @@
 # @ton-pay/ui-react
 
-React components and hooks for TonPay SDK.
+React components and hooks for TON Pay SDK.
 
 ## Documentation
 
@@ -9,7 +9,7 @@ Full documentation: https://docs.tonpay.tech
 ## Installation
 
 ```bash
-npm install @ton-pay/ui @tonconnect/ui-react
+npm install @ton-pay/ui-react @tonconnect/ui-react
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ function PaymentForm() {
       {
         amount: 10.5,
         asset: TON,
-        recipientAddr: "EQC...",
+        recipientAddr: "EQC...", // Optional if API key is provided
         senderAddr,
         commentToSender: "Payment for order #123",
       },
@@ -76,7 +76,7 @@ function PaymentComponent() {
         {
           amount: 10.5,
           asset: TON,
-          recipientAddr: "EQC...",
+          recipientAddr: "EQC...", // Optional if API key is provided
           senderAddr,
           commentToSender: "Payment for order #123",
         },

@@ -3,7 +3,7 @@ import { createHmac } from "crypto";
 /**
  * Verifies the HMAC-SHA256 signature of a payload
  * @param payload - Raw JSON string or object to verify
- * @param signature - The signature from X-TonPay-Signature header
+ * @param signature - The signature from X-TON Pay-Signature header
  * @param apiSecret - Your TON Pay webhook API secret
  * @returns true if signature is valid, false otherwise
  *

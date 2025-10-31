@@ -40,12 +40,12 @@ const STYLES = `
 .tp-btn.no-menu{border-radius:var(--tp-radius,8px)}
 .tp-btn-content{display:flex;flex-direction:row;align-items:center;padding:0;gap:5px;white-space:nowrap}
 .tp-btn:hover:not(:disabled){filter:brightness(0.92)}
-.tp-btn:active:not(:disabled){filter:brightness(0.85);transform:translateY(1px)}
+.tp-btn:active:not(:disabled){filter:brightness(0.85);}
 .tp-btn:disabled{cursor:not-allowed;opacity:.85}
 .tp-btn.loading{animation:none}
 .tp-arrow{display:flex;align-items:center;justify-content:center;padding:13px 10px;min-width:calc(var(--tp-height,44px));min-height:var(--tp-height,44px);background:var(--tp-bg,#0098EA);color:var(--tp-text,#fff);border:none;border-left:1px solid rgba(255,255,255,.2);border-radius:0 var(--tp-radius,8px) var(--tp-radius,8px) 0;cursor:pointer;transition:filter .12s ease, transform .12s ease;font-size:14px}
 .tp-arrow:hover:not(:disabled){filter:brightness(0.92)}
-.tp-arrow:active:not(:disabled){filter:brightness(0.85);transform:translateY(1px)}
+.tp-arrow:active:not(:disabled){filter:brightness(0.85);}
 .tp-arrow:disabled{cursor:not-allowed;opacity:.85;transition:none;filter:none;transform:none}
 .tp-menu{position:absolute;right:0;top:calc(100% + 8px);width:256px;background:var(--tp-menu-bg,#ffffff);color:var(--tp-menu-text,#111827);border:1px solid rgba(0,0,0,.08);border-radius:var(--tp-menu-radius,16px);padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:1000;animation:tp-fade-in .15s ease}
 .tp-menu-arrow{position:absolute;top:-8px;right:20px;width:0;height:0;border-style:solid;border-width:0 8px 8px 8px;border-color:transparent transparent var(--tp-menu-bg,#ffffff) transparent;filter:drop-shadow(0 -1px 1px rgba(0,0,0,.08))}
@@ -115,7 +115,7 @@ const STYLES = `
   const label = getParam('text', '');
   const loadingText = getParam('loadingText', 'Processing...');
   const borderRadius = getParam('borderRadius', '8');
-  const fontFamily = getParam('fontFamily', 'inherit');
+  const fontFamily = getParam('fontFamily', 'sans-serif');
   const width = getNumParam('width', 300);
   const height = getNumParam('height', 44);
   const showMenu = getBoolParam('showMenu', true);

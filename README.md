@@ -80,7 +80,7 @@ Complete documentation: [docs.tonpay.tech](https://docs.tonpay.tech)
 
 - [Overview](https://docs.tonpay.tech/overview)
 - [Quick Start](https://docs.tonpay.tech/quick-start)
-- [TonPay Button](https://docs.tonpay.tech/ton-pay-button)
+- [TON Pay Button](https://docs.tonpay.tech/ton-pay-button)
 - [API Reference](https://docs.tonpay.tech/create-transfer)
 - [Webhooks](https://docs.tonpay.tech/webhooks)
 

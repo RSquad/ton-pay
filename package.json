@@ -2,7 +2,7 @@
   "name": "ton-pay-sdk",
   "private": true,
   "version": "0.1.0",
-  "description": "TonPay SDK - modular payment solutions for TON blockchain",
+  "description": "TON Pay SDK - modular payment solutions for TON blockchain",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -29,7 +29,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "echo 'No lint configured'",
     "docs:dev": "mintlify dev --no-browser --port 3333",
-    "test:button-react": "cd packages/ui-react && bun run test:button-react"
+    "test:button-react": "cd packages/ui-react && bun run test:button-react",
+    "publish:api": "npm publish --workspace=packages/api",
+    "publish:ui": "npm publish --workspace=packages/ui",
+    "publish:ui-react": "npm publish --workspace=packages/ui-react",
+    "publish:all": "npm publish --workspaces"
   },
   "tsup": {
     "entry": [
@@ -67,7 +71,7 @@
     "sdk"
   ],
   "author": "RSquad Blockchain Lab",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/RSquad/ton-pay.git"

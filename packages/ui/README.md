@@ -1,6 +1,6 @@
 # @ton-pay/ui
 
-Vanilla JavaScript UI components for TonPay SDK. Framework-agnostic components that can be used in any JavaScript environment.
+Vanilla JavaScript UI components for TON Pay SDK. Framework-agnostic components that can be used in any JavaScript environment.
 
 ## Documentation
 
@@ -14,9 +14,9 @@ npm install @ton-pay/ui @tonconnect/ui
 
 ## Usage
 
-### TonPay Client (Vanilla JS)
+### TON Pay Client (Vanilla JS)
 
-Create a TonPay client instance to handle wallet connections and transactions:
+Create a TON Pay client instance to handle wallet connections and transactions:
 
 ```javascript
 import { createTonPay } from "@ton-pay/ui/vanilla";
@@ -32,7 +32,7 @@ const result = await tonPay.pay(async (senderAddr) => {
     {
       amount: 10.5,
       asset: TON,
-      recipientAddr: "EQC...",
+      recipientAddr: "EQC...", // Optional if API key is provided
       senderAddr,
       commentToSender: "Payment for order #123",
     },
@@ -45,7 +45,7 @@ const result = await tonPay.pay(async (senderAddr) => {
 console.log(result);
 ```
 
-### TonPay Button Embed
+### TON Pay Button Embed
 
 Embed a ready-to-use payment button via a script tag. You can use it directly from the npm package or via a CDN:
 
@@ -143,7 +143,7 @@ TonPayEmbed.click();
 
 ### `createTonPay(options)`
 
-Creates a new TonPay client instance.
+Creates a new TON Pay client instance.
 
 **Parameters:**
 
