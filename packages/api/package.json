@@ -20,6 +20,20 @@
     "test": "bun test",
     "prepublishOnly": "npm run clean && npm run build"
   },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "dts": true,
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true,
+    "platform": "browser"
+  },
   "dependencies": {
     "crypto-js": "^4.2.0"
   },
