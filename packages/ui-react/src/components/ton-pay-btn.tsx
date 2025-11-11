@@ -1,6 +1,8 @@
 import { useTonAddress, useTonConnectModal, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import { CHAIN, toUserFriendlyAddress } from "@tonconnect/ui";
 import { useEffect, useState } from "react";
+import { NotificationRoot } from "./notification/Notification";
+import { ErrorTransactionNotification } from "./notification/ErrorTransactionNotification";
 
 type TonPayPreset = "default" | "gradient";
 
@@ -9,6 +11,8 @@ type TonPayButtonProps = {
     isLoading?: boolean,
     variant?: "long" | "short",
     preset?: TonPayPreset,
+    onError?: (error: unknown) => void,
+    showErrorNotification?: boolean,
     bgColor?: string,
     textColor?: string,
     borderRadius?: number | string,
@@ -43,7 +47,8 @@ const stylesAndAnimations = `
   .tp-btn{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:13px 10px;gap:10px;flex:1;min-height:var(--tp-height,44px);background:var(--tp-bg,#0098EA);color:var(--tp-text,#fff);border:none;border-radius:var(--tp-radius,8px) 0 0 var(--tp-radius,8px);cursor:pointer;transition:filter .12s ease, transform .12s ease;font-family:var(--tp-font,inherit);font-style:normal;font-weight:500;font-size:20px;line-height:25px;text-align:center;position:relative}
   .tp-btn.with-menu{padding-left:calc(10px + (var(--tp-height,44px))/2)}
   .tp-btn.no-menu{border-radius:var(--tp-radius,8px)}
-  .tp-btn-content{display:flex;flex-direction:row;align-items:center;padding:0;gap:5px;white-space:nowrap}
+  .tp-btn-content{display:flex;flex-direction:row;align-items:center;padding:0;gap:5px;white-space:nowrap;margin-top:-4px}
+  .tp-btn-content svg{margin-top:4px}
   .tp-btn:hover:not(:disabled){filter:brightness(0.92)}
   .tp-btn:active:not(:disabled){filter:brightness(0.85);transform:translateY(1px)}
   .tp-btn:disabled{cursor:not-allowed;opacity:.85}
@@ -151,6 +156,8 @@ export const TonPayButton = ({
     className,
     showMenu = true,
     disabled = false,
+    onError,
+    showErrorNotification = true,
 }: TonPayButtonProps) => {
     const address = useTonAddress(true);
     const modal = useTonConnectModal();
@@ -160,6 +167,7 @@ export const TonPayButton = ({
 
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [isCopiedShown, setIsCopiedShown] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null as string | null);
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -176,6 +184,12 @@ export const TonPayButton = ({
             setIsCopiedShown(false);
         }
     }, [showContextMenu, isCopiedShown]);
+
+    useEffect(() => {
+        if (!errorMessage) return;
+        const timerId = setTimeout(() => setErrorMessage(null), 3000);
+        return () => clearTimeout(timerId);
+    }, [errorMessage]);
 
     const handleDropdownToggle = (e: any) => {
         e.preventDefault();
@@ -210,21 +224,38 @@ export const TonPayButton = ({
         setShowContextMenu(false);
     };
 
+    const onPayClick = async () => {
+        try {
+            await handlePay();
+        } catch (err) {
+            try {
+                onError?.(err);
+            } catch {}
+            if (showErrorNotification) {
+                const raw = typeof err === "object" && err && "message" in (err as any)
+                    ? String((err as any).message)
+                    : String(err ?? "");
+                const msg = raw || "Wallet connection modal closed";
+                setErrorMessage(msg);
+            }
+        }
+    };
+
     const presetConfig = preset ? PRESETS[preset] : null;
     const finalBgColor = bgColor ?? presetConfig?.bgColor ?? PRESETS.default.bgColor;
     const finalTextColor = textColor ?? presetConfig?.textColor ?? PRESETS.default.textColor;
     
     const vars: Record<string, string | number | undefined> = {
-        ["--tp-bg" as any]: finalBgColor,
-        ["--tp-text" as any]: finalTextColor,
-        ["--tp-radius" as any]: typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius,
-        ["--tp-font" as any]: fontFamily,
-        ["--tp-width" as any]: toCssSize(width),
-        ["--tp-height" as any]: toCssSize(height),
-        ["--tp-menu-bg" as any]: "#ffffff",
-        ["--tp-menu-text" as any]: "#111827",
-        ["--tp-menu-muted" as any]: "#6b7280",
-        ["--tp-menu-hover" as any]: "rgba(0,0,0,.06)",
+        "--tp-bg": finalBgColor,
+        "--tp-text": finalTextColor,
+        "--tp-radius": typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius,
+        "--tp-font": fontFamily,
+        "--tp-width": toCssSize(width),
+        "--tp-height": toCssSize(height),
+        "--tp-menu-bg": "#ffffff",
+        "--tp-menu-text": "#111827",
+        "--tp-menu-muted": "#6b7280",
+        "--tp-menu-hover": "rgba(0,0,0,.06)",
     };
 
   const isDisabled = isLoading || disabled;
@@ -251,7 +282,7 @@ export const TonPayButton = ({
                 <button
                     type="button"
                     className={["tp-btn", isLoading ? "loading" : "", !hasMenu ? "no-menu" : "with-menu"].filter(Boolean).join(" ")}
-                    onClick={isDisabled ? undefined : handlePay}
+                    onClick={isDisabled ? undefined : onPayClick}
                     disabled={isDisabled}
                 >
                     {isLoading ? (
@@ -291,6 +322,11 @@ export const TonPayButton = ({
                         </>
                     )}
                 </div>
+            )}
+            {errorMessage && (
+                <NotificationRoot>
+                    <ErrorTransactionNotification text={errorMessage} />
+                </NotificationRoot>
             )}
         </div>
     );

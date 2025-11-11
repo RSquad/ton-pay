@@ -1,6 +1,6 @@
 {
   "name": "@ton-pay/ui-react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React components and hooks for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
