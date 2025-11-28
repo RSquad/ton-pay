@@ -1,7 +1,7 @@
 {
   "name": "ton-pay-sdk",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0-beta.1",
   "description": "TON Pay SDK - modular payment solutions for TON blockchain",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

@@ -1,17 +1,23 @@
-import React from "react";
-import { ErrorDotIcon, NotificationCard } from "./Notification";
+import * as React from "react";
+import { ErrorDotIcon } from "../icons";
+import { NotificationCard } from "./Notification";
 
-export const ErrorTransactionNotification: React.FC<{ text?: string; className?: string; style?: React.CSSProperties }>
-  = ({ text, className, style }) => {
-    return (
-      <NotificationCard
-        title="Transaction cancelled"
-        text={text}
-        icon={<ErrorDotIcon />}
-        className={className}
-        style={style}
-      />
-    );
-  };
+interface ErrorTransactionNotificationProps {
+  text?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
 
-
+export const ErrorTransactionNotification: React.FC<
+  ErrorTransactionNotificationProps
+> = ({ text, className, style }) => {
+  return (
+    <NotificationCard
+      title="Transaction cancelled"
+      text={text}
+      icon={<ErrorDotIcon />}
+      className={className}
+      style={style}
+    />
+  );
+};

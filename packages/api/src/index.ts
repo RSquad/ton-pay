@@ -1,4 +1,7 @@
 export * from "./create-ton-pay-transfer/create-ton-pay-transfer";
+export * from "./create-moonpay-transfer/create-moonpay-transfer";
+export * from "./check-moonpay-geo/check-moonpay-geo";
+export * from "./check-moonpay-limits/check-moonpay-limits";
 export * from "./get-ton-pay-transfer/get-ton-pay-transfer-by-body-hash";
 export * from "./get-ton-pay-transfer/get-ton-pay-transfer-by-reference";
 export * from "./types";

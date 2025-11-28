@@ -3,20 +3,11 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@ton-pay/api": ["../api/src/index.ts"]
+    }
   },
-  "include": [
-    "src",
-    "test"
-  ]
+  "include": ["src"],
+  "exclude": ["test", "node_modules", "dist"]
 }
-
-
-
-
-
-
-
-
-
-

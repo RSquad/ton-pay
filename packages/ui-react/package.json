@@ -1,16 +1,20 @@
 {
   "name": "@ton-pay/ui-react",
-  "version": "0.1.2",
+  "version": "0.2.0-beta.1",
   "description": "React components and hooks for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./dist/styles.css"
   },
   "scripts": {
     "build": "tsup",
@@ -22,13 +26,8 @@
     "prepublishOnly": "npm run clean && npm run build"
   },
   "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "format": [
-      "cjs",
-      "esm"
-    ],
+    "entry": ["src/index.ts"],
+    "format": ["cjs", "esm"],
     "dts": true,
     "splitting": true,
     "sourcemap": true,
@@ -43,23 +42,35 @@
       "@tonconnect/sdk",
       "@tonconnect/isomorphic-eventsource",
       "@tonconnect/isomorphic-fetch",
-      "@tonconnect/protocol"
+      "@tonconnect/protocol",
+      "@ton-pay/api"
     ]
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "@tonconnect/ui-react": "^2.2.0"
+    "@tonconnect/ui-react": "^2.2.0",
+    "@ton-pay/api": ">=0.1.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0"
+    "@tonconnect/sdk": "^3.3.1",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "react-dom": "18.3.1"
   },
   "keywords": [
     "ton",
     "tonpay",
+    "ton-pay",
+    "toncoin",
     "react",
+    "blockchain",
+    "payments",
+    "crypto",
     "ui",
     "components",
-    "hooks"
+    "hooks",
+    "wallet",
+    "tonconnect"
   ],
   "author": "RSquad Blockchain Lab",
   "license": "Apache-2.0",
@@ -78,5 +89,8 @@
   "files": [
     "dist",
     "README.md"
-  ]
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

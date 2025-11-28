@@ -1,52 +1,133 @@
 # @ton-pay/ui-react
 
-React components and hooks for TON Pay SDK.
-
-## Documentation
-
-Full documentation: https://docs.tonpay.tech
+Professional React components and hooks for integrating TON blockchain payments into your application.
 
 ## Installation
 
 ```bash
-npm install @ton-pay/ui-react @tonconnect/ui-react
+npm install @ton-pay/ui-react @ton-pay/api @tonconnect/ui-react
 ```
 
 ## Quick Start
 
-### Basic Usage
-
 ```tsx
-import { TonPayButton } from "@ton-pay/ui-react";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { TonPayButton, useTonPay } from "@ton-pay/ui-react";
 import { createTonPayTransfer, TON } from "@ton-pay/api";
-import { useTonAddress } from "@tonconnect/ui-react";
+
+function App() {
+  return (
+    <TonConnectUIProvider manifestUrl="https://your-app.com/tonconnect-manifest.json">
+      <PaymentForm />
+    </TonConnectUIProvider>
+  );
+}
 
 function PaymentForm() {
-  const senderAddr = useTonAddress();
+  const { pay } = useTonPay();
 
   const handlePay = async () => {
-    const transfer = await createTonPayTransfer(
-      {
-        amount: 10.5,
-        asset: TON,
-        recipientAddr: "EQC...", // Optional if API key is provided
-        senderAddr,
-        commentToSender: "Payment for order #123",
-      },
-      { chain: "mainnet", apiKey: "your-api-key" }
-    );
-
-    return transfer;
+    await pay(async (senderAddr) => {
+      return createTonPayTransfer(
+        {
+          amount: 10.5,
+          asset: TON,
+          recipientAddr: "EQC...",
+          senderAddr,
+          commentToSender: "Payment for order #123",
+        },
+        { chain: "mainnet", apiKey: "your-api-key" }
+      );
+    });
   };
 
   return <TonPayButton handlePay={handlePay} />;
 }
 ```
 
-### With Presets
+## Components
+
+### TonPayButton
+
+Complete payment button with wallet connection, loading states, and error handling.
 
 ```tsx
-<TonPayButton preset="gradient" variant="long" handlePay={handlePay} />
+<TonPayButton
+  handlePay={handlePay}
+  variant="long"
+  preset="gradient"
+  amount={10.5}
+  currency="TON"
+/>
+```
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `handlePay` | `() => Promise<void>` | **required** | Payment handler |
+| `isLoading` | `boolean` | `false` | Loading state |
+| `variant` | `"long" \| "short"` | `"long"` | Button text variant |
+| `preset` | `"default" \| "gradient"` | - | Theme preset |
+| `bgColor` | `string` | `"#0098EA"` | Background color |
+| `textColor` | `string` | `"#FFFFFF"` | Text color |
+| `borderRadius` | `number \| string` | `8` | Border radius |
+| `width` | `number \| string` | `300` | Button width |
+| `height` | `number \| string` | `44` | Button height |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `amount` | `number \| string` | - | Payment amount |
+| `currency` | `string` | `"TON"` | Currency code |
+| `apiKey` | `string` | - | API key for on-ramp |
+| `onError` | `(error: unknown) => void` | - | Error callback |
+| `showErrorNotification` | `boolean` | `true` | Show error toast |
+
+## Hooks
+
+### useTonPay
+
+Core hook for TON wallet integration and payments.
+
+```tsx
+const { pay, address } = useTonPay();
+
+const handlePayment = async () => {
+  const result = await pay(async (senderAddr) => {
+    return createTonPayTransfer({
+      amount: 10.5,
+      asset: TON,
+      recipientAddr: "EQC...",
+      senderAddr,
+    }, { chain: "mainnet", apiKey: "your-api-key" });
+  });
+  
+  console.log("Transaction:", result.txResult);
+};
+```
+
+### useMoonPayIframe
+
+Hook for MoonPay on-ramp integration.
+
+```tsx
+const { 
+  checkAvailability, 
+  fetchOnRampLink, 
+  loading 
+} = useMoonPayIframe({
+  apiKey: "your-api-key",
+  chain: "mainnet",
+});
+```
+
+## Styling
+
+### Presets
+
+Built-in theme presets:
+
+```tsx
+<TonPayButton preset="default" />  // Blue solid
+<TonPayButton preset="gradient" /> // Blue gradient
 ```
 
 ### Custom Styling
@@ -56,90 +137,37 @@ function PaymentForm() {
   bgColor="#000000"
   textColor="#FFFFFF"
   borderRadius={99}
-  variant="short"
-  handlePay={handlePay}
+  fontFamily="'SF Pro Display', sans-serif"
+  width={280}
+  height={48}
 />
 ```
 
-### useTonPay Hook
+### CSS Variables
+
+The button uses CSS variables for theming:
+
+```css
+--tp-bg: #0098EA;
+--tp-text: #FFFFFF;
+--tp-radius: 8px;
+--tp-font: inherit;
+--tp-width: 300px;
+--tp-height: 44px;
+```
+
+## TypeScript
+
+Full TypeScript support with exported types:
 
 ```tsx
-import { useTonPay } from "@ton-pay/ui-react";
-import { createTonPayTransfer, TON } from "@ton-pay/api";
-
-function PaymentComponent() {
-  const { pay, address } = useTonPay();
-
-  const handlePayment = async () => {
-    const result = await pay(async (senderAddr) => {
-      const transfer = await createTonPayTransfer(
-        {
-          amount: 10.5,
-          asset: TON,
-          recipientAddr: "EQC...", // Optional if API key is provided
-          senderAddr,
-          commentToSender: "Payment for order #123",
-        },
-        { chain: "mainnet", apiKey: "your-api-key" }
-      );
-
-      return transfer;
-    });
-  };
-
-  return (
-    <div>
-      {address ? `Connected: ${address}` : "Not connected"}
-      <button onClick={handlePayment}>Pay</button>
-    </div>
-  );
-}
+import type {
+  TonPayButtonProps,
+  PayInfo,
+  GetMessageFn,
+  TonPayMessage,
+} from "@ton-pay/ui-react";
 ```
-
-## Features
-
-- **Highly Customizable** - Background color, text color, border radius, font family
-- **Presets** - Built-in themes (default, gradient) matching Figma designs
-- **Variants** - Long ("Pay with TON Pay") and Short ("TON Pay") text options
-- **Loading States** - Built-in spinner and loading text
-- **Wallet Integration** - Connect, disconnect, copy address via dropdown menu
-- **Responsive** - Flexible width and height
-- **Zero Config** - Works out of the box with sensible defaults
-
-## Props
-
-| Prop           | Type                      | Default           | Description                  |
-| -------------- | ------------------------- | ----------------- | ---------------------------- |
-| `handlePay`    | `() => Promise<void>`     | **required**      | Payment handler function     |
-| `isLoading`    | `boolean`                 | `false`           | Loading state                |
-| `variant`      | `"long" \| "short"`       | `"long"`          | Button text variant          |
-| `preset`       | `"default" \| "gradient"` | -                 | Predefined theme preset      |
-| `bgColor`      | `string`                  | `"#0098EA"`       | Background (hex or gradient) |
-| `textColor`    | `string`                  | `"#FFFFFF"`       | Text color                   |
-| `borderRadius` | `number \| string`        | `8`               | Border radius                |
-| `fontFamily`   | `string`                  | `"inherit"`       | Font family                  |
-| `width`        | `number \| string`        | `300`             | Button width                 |
-| `height`       | `number \| string`        | `44`              | Button height                |
-| `loadingText`  | `string`                  | `"Processing..."` | Loading state text           |
-| `showMenu`     | `boolean`                 | `false`           | Show dropdown menu           |
-| `disabled`     | `boolean`                 | `false`           | Disabled state               |
-| `style`        | `Record<string, any>`     | -                 | Additional styles            |
-| `className`    | `string`                  | -                 | Additional CSS class         |
-
-## Visual Showcase
-
-Run the interactive button showcase to see all variants and styling options:
-
-```bash
-bun test:button-react
-```
-
-This will start a local dev server with a visual gallery of all button configurations.
-
-## Components
-
-- **TonPayButton**: Complete payment button with wallet connection and customizable styling
-- **useTonPay**: Hook for TON wallet integration
 
 ## License
 

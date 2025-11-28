@@ -11,31 +11,26 @@
   "navigation": {
     "groups": [
       {
-        "group": "",
+        "group": "TON Pay SDK",
         "pages": [
           "docs/en/overview",
-          "docs/en/quick-start"
-        ]
-      },
-      {
-        "group": "Payment Integration",
-        "pages": [
-          "docs/en/create-transfer",
-          "docs/en/send-via-usetonpay",
-          "docs/en/send-via-tonconnect",
-          "docs/en/status-and-info"
-        ]
-      },
-      {
-        "group": "UI Integration",
-        "pages": [
-          "docs/en/ton-pay-button",
-          "docs/en/ton-pay-button-js"
-        ]
-      },
-      {
-        "group": "Other",
-        "pages": [
+          "docs/en/quick-start",
+          {
+            "group": "Payment Integration",
+            "pages": [
+              "docs/en/create-transfer",
+              "docs/en/send-via-usetonpay",
+              "docs/en/send-via-tonconnect",
+              "docs/en/status-and-info"
+            ]
+          },
+          {
+            "group": "UI Integration",
+            "pages": [
+              "docs/en/ton-pay-button",
+              "docs/en/ton-pay-button-js"
+            ]
+          },
           "docs/en/webhooks",
           "docs/en/api-reference"
         ]

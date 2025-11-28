@@ -57,11 +57,11 @@ export default function PayButton() {
               {
                 amount: 12.34,
                 asset: "TON",
-                recipientAddr: "EQC...RECIPIENT",
+                recipientAddr: "EQC...RECIPIENT", // Optional if API key provided
                 senderAddr,
                 commentToSender: "Order #123",
               },
-              { chain: "testnet" }
+              { chain: "testnet", apiKey: process.env.TONPAY_API_KEY }
             );
           return { message, reference, bodyBase64Hash };
         });
@@ -80,7 +80,7 @@ Complete documentation: [docs.tonpay.tech](https://docs.tonpay.tech)
 
 - [Overview](https://docs.tonpay.tech/overview)
 - [Quick Start](https://docs.tonpay.tech/quick-start)
-- [TON Pay Button](https://docs.tonpay.tech/ton-pay-button)
+- [TonPay Button](https://docs.tonpay.tech/ton-pay-button)
 - [API Reference](https://docs.tonpay.tech/create-transfer)
 - [Webhooks](https://docs.tonpay.tech/webhooks)
 

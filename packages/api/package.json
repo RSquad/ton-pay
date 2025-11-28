@@ -1,6 +1,6 @@
 {
   "name": "@ton-pay/api",
-  "version": "0.1.2",
+  "version": "0.2.0-beta.1",
   "description": "API functions for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

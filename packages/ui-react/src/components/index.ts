@@ -1,3 +1,9 @@
-export * from "./ton-pay-btn";
-export * from "./notification/Notification";
-export * from "./notification/ErrorTransactionNotification";
+export { TonPayButton } from "./ton-pay-button";
+export { PaymentModal } from "./payment-modal";
+export { BottomSheet } from "./bottom-sheet";
+export {
+  NotificationCard,
+  NotificationRoot,
+  ErrorTransactionNotification,
+} from "./notification";
+export * from "./icons";

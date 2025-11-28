@@ -3,7 +3,9 @@ import { BASE_URL, TESTNET_BASE_URL } from "./const";
 
 export const getBaseUrl = (chain?: Chain) => {
   // only for testing. do not use in production. do not use in docs
-  if (process.env.TONPAY_BASE_URL) {
+  // @ts-ignore
+  if (typeof process !== 'undefined' && process.env && process.env.TONPAY_BASE_URL) {
+    // @ts-ignore
     return process.env.TONPAY_BASE_URL;
   }
   if (!chain || chain === "mainnet") {

@@ -1,0 +1,2 @@
+export { TonPayButton } from "./TonPayButton";
+
