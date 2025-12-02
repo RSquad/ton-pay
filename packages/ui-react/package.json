@@ -1,6 +1,6 @@
 {
   "name": "@ton-pay/ui-react",
-  "version": "0.2.0-beta.1",
+  "version": "0.2.0-beta.2",
   "description": "React components and hooks for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -13,8 +13,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    },
-    "./styles.css": "./dist/styles.css"
+    }
   },
   "scripts": {
     "build": "tsup",
@@ -26,12 +25,18 @@
     "prepublishOnly": "npm run clean && npm run build"
   },
   "tsup": {
-    "entry": ["src/index.ts"],
-    "format": ["cjs", "esm"],
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
     "dts": true,
     "splitting": true,
     "sourcemap": true,
     "clean": true,
+    "injectStyle": true,
     "platform": "browser",
     "skipNodeModulesBundle": true,
     "external": [
