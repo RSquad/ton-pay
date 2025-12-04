@@ -49,17 +49,23 @@ export function useTonPay() {
 
   const pay = React.useCallback(
     async <T extends object = object>(
-      getMessage: GetMessageFn<T>
+      getMessage: GetMessageFn<T>,
+      options?: { onRequestSent?: (redirectToWallet: () => void) => void }
     ): Promise<PayInfo<T>> => {
       const walletAddress = await waitForWalletConnection();
       const validUntil = Math.floor(Date.now() / 1e3) + TX_VALID_DURATION;
       const messageResult = await getMessage(walletAddress);
 
-      const txResult = await tonConnectUI.sendTransaction({
-        messages: [messageResult.message],
-        validUntil,
-        from: walletAddress,
-      });
+      const txResult = await tonConnectUI.sendTransaction(
+        {
+          messages: [messageResult.message],
+          validUntil,
+          from: walletAddress,
+        },
+        {
+          onRequestSent: options?.onRequestSent,
+        }
+      );
 
       return { ...messageResult, txResult };
     },

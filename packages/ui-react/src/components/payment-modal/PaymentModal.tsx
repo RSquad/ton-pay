@@ -8,6 +8,10 @@ import {
   CheckIcon,
   ErrorIcon,
   MenuIcon,
+  CardIcon,
+  CryptoIcon,
+  TonPayLogo,
+  InfoIcon,
 } from "../icons";
 import type { PaymentModalProps, PaymentViewState } from "../../types";
 import "./PaymentModal.css";
@@ -21,12 +25,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   onPayWithCrypto,
   amount = "0.1",
   currency = "TON",
-  itemTitle = "Pay to Guitar from Demo Store",
+  itemTitle = "Item",
   walletAddress,
   onDisconnect,
   fetchOnRampLink,
   onRampAvailable = false,
   onPaymentSuccess,
+  isLoading = false,
 }) => {
   const [view, setView] = useState<PaymentViewState>("main");
   const [isMobile, setIsMobile] = useState(false);
@@ -127,7 +132,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
       setIframeError(null);
 
       fetchOnRampLink(PROVIDER.id)
-        .then((link) => {
+        .then((link: string) => {
           setOnRampLink(link);
           iframeTimeoutRef.current = setTimeout(() => {
             if (!iframeLoaded) {
@@ -137,7 +142,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             }
           }, IFRAME_LOAD_TIMEOUT);
         })
-        .catch((err) => {
+        .catch((err: any) => {
           const errorMsg = err?.message || "Failed to initialize payment";
           setOnRampError(errorMsg);
           fetchStartedRef.current = false;
@@ -179,6 +184,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     if (!isMobile || !isOpen) return;
 
     const updateHeight = () => {
+      if (view === "card") {
+        setSheetDetent([0.9]);
+        return;
+      }
       if (contentRef.current) {
         const height = contentRef.current.scrollHeight;
         const windowHeight = window.innerHeight;
@@ -212,15 +221,17 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
   const renderHeader = () => (
     <div className="pm-header">
-      {view !== "main" ? (
-        <button className="pm-back-btn" onClick={handleBack}>
-          <BackIcon />
-        </button>
-      ) : (
-        <div style={{ width: 32 }} />
-      )}
-      <div className="pm-title">New Purchase</div>
-      <div style={{ display: "flex", gap: 8 }}>
+      <div className="pm-header-left">
+        {view !== "main" ? (
+          <button className="pm-back-btn" onClick={handleBack}>
+            <BackIcon />
+          </button>
+        ) : (
+          <TonPayLogo />
+        )}
+      </div>
+      {view !== "main" && <div className="pm-title">New Purchase</div>}
+      <div className="pm-header-right">
         {walletAddress && view === "main" && (
           <div style={{ position: "relative" }}>
             <button className="pm-close-btn" onClick={() => setShowMenu(!showMenu)}>
@@ -245,7 +256,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           </div>
         )}
         <button className="pm-close-btn" onClick={onClose}>
-          <CloseIcon />
+          <CloseIcon size={32} />
         </button>
       </div>
     </div>
@@ -253,30 +264,64 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
   const renderMainView = () => (
     <div className="pm-body-main">
-      <div className="pm-order-info">
-        <span className="pm-order-text">{itemTitle}</span>
-      </div>
-      <div className="pm-amount-container">
-        <span className="pm-amount-label">Amount</span>
-        <div className="pm-amount-value">
-          {amount} {currency} <TonIconBlue />
+      <div className="pm-main-container">
+        <h2 className="pm-main-title">New Purchase</h2>
+        <div className="pm-amount-container">
+          <span className="pm-amount-label">Amount</span>
+          <div className="pm-amount-value">
+            {amount} {currency} <TonIconBlue />
+          </div>
+        </div>
+        <div className="pm-order-info">
+          <span className="pm-order-text">{itemTitle}</span>
+          <div className="pm-info-icon">
+            <InfoIcon size={14} color="#004062" />
+          </div>
         </div>
       </div>
-      <div className="pm-actions">
-        <button className="pm-btn pm-btn-primary" onClick={onPayWithCrypto}>
-          Pay with Crypto
-        </button>
-        {onRampAvailable && (
-          <button className="pm-btn pm-btn-black" onClick={() => setView("card")}>
-            Pay with Card
+      <div className="pm-actions-card">
+        <div className="pm-actions">
+          <button 
+            className={`pm-btn ${isLoading ? 'processing' : 'pm-btn-primary'}`} 
+            onClick={isLoading ? undefined : onPayWithCrypto}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div className="pm-btn-spinner" />
+                <span>Processing</span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <CryptoIcon />
+                <span>Pay with Crypto</span>
+              </div>
+            )}
           </button>
+          
+          {isLoading && (
+            <div className="pm-retry-link">
+              Did the wallet fail to open?{" "}
+              <span className="pm-retry-action" onClick={onPayWithCrypto}>
+                Click here
+              </span>
+              .
+            </div>
+          )}
+
+          {onRampAvailable && !isLoading && (
+            <button className="pm-btn pm-btn-black" onClick={() => setView("card")}>
+              <CardIcon />
+              <span>Pay with Card</span>
+            </button>
+          )}
+        </div>
+        {onRampAvailable && !isLoading && (
+          <div className="pm-footer">
+            <span className="pm-footer-text">Processed by {PROVIDER.name}</span>
+          </div>
         )}
       </div>
-      {onRampAvailable && (
-        <div className="pm-footer">
-          <span className="pm-footer-text">Processed by {PROVIDER.name}</span>
-        </div>
-      )}
     </div>
   );
 
@@ -349,7 +394,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   );
 
   const renderContent = () => (
-    <div className="pm-content">
+    <div
+      className="pm-content"
+      style={{ height: view === "card" ? "100%" : "auto" }}
+    >
       {view !== "success" && view !== "error" && renderHeader()}
       {view === "main" && renderMainView()}
       {view === "card" && renderCardView()}
@@ -367,7 +415,12 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         initialDetent={0}
         enableSwipeToClose={view === "main"}
       >
-        <div ref={contentRef}>{renderContent()}</div>
+        <div
+          ref={contentRef}
+          style={{ height: view === "card" ? "100%" : "auto" }}
+        >
+          {renderContent()}
+        </div>
       </BottomSheet>
     );
   }

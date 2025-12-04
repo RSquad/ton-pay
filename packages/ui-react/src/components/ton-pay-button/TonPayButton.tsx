@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import type { TonPayButtonProps } from "../../types";
 import { classNames, toCssSize, getUserIp } from "../../utils";
-import { TonIcon } from "../icons";
+import { TonIcon, DisconnectIcon } from "../icons";
 import { NotificationRoot, ErrorTransactionNotification } from "../notification";
 import { PaymentModal } from "../payment-modal/PaymentModal";
 import { useMoonPayIframe } from "../../hooks/useMoonPayIframe";
@@ -39,11 +39,18 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
   const address = useTonAddress(true);
   const [tonConnectUI] = useTonConnectUI();
 
+  const [showMenu, setShowMenu] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [onRampAvailable, setOnRampAvailable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [internalLoading, setInternalLoading] = useState(false);
   const [userIp, setUserIp] = useState("");
+  // We store the redirectToWallet function from ton-connect's onRequestSent callback
+  // This allows us to manually trigger the wallet redirect when the user clicks "Click here",
+  // which is necessary when automatic redirection fails due to platform limitations.
+  const [redirectToWallet, setRedirectToWallet] = useState<(() => void) | null>(
+    null
+  );
 
   const { checkAvailability, fetchOnRampLink } = useMoonPayIframe({
     apiKey,
@@ -91,14 +98,27 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
     };
   }, [apiKey, amount, currency, isOnRampAvailable, checkAvailability, userIp]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showMenu && !(event.target as Element).closest(".tp-wrap")) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showMenu]);
+
   const handleDisconnect = useCallback(() => {
     tonConnectUI.disconnect();
   }, [tonConnectUI]);
 
   const handlePayWithCrypto = useCallback(async () => {
-    setIsModalOpen(false);
+    // We keep the modal open to show processing state
     try {
-      await handlePay();
+      setRedirectToWallet(null);
+      await handlePay((redirect) => setRedirectToWallet(() => redirect));
+      // If success, we can close it or wait for parent to update state
+      // setIsModalOpen(false);
     } catch (err) {
       onError?.(err);
       if (showErrorNotification) {
@@ -118,6 +138,10 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
       handlePayWithCrypto();
     }
   }, [onRampAvailable, handlePayWithCrypto]);
+
+  const handleRetry = useCallback(() => {
+    handlePayWithCrypto();
+  }, [handlePayWithCrypto]);
 
   const handleFetchOnRampLink = useCallback(
     async (_providerId: string) => {
@@ -149,6 +173,7 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
   };
 
   const isDisabled = isLoading || disabled || internalLoading;
+  const showDropdown = !onRampAvailable && !!address && !isLoading;
 
   const renderContent = () => {
     if (text) return <span>{text}</span>;
@@ -179,7 +204,12 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
       <div className="tp-btn-container">
         <button
           type="button"
-          className={classNames("tp-btn", isLoading && "loading", "no-menu")}
+          className={classNames(
+            "tp-btn",
+            isLoading && "processing",
+            isLoading && "loading",
+            showDropdown ? "with-menu" : "no-menu"
+          )}
           onClick={isDisabled ? undefined : onPayClick}
           disabled={isDisabled}
         >
@@ -192,7 +222,56 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
             renderContent()
           )}
         </button>
+        {showDropdown && (
+          <button
+            type="button"
+            className="tp-arrow"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }}
+            disabled={isDisabled}
+          >
+            ▼
+          </button>
+        )}
       </div>
+      
+      {isLoading && (
+        <div className="tp-retry-text">
+          Did the wallet fail to open?{" "}
+          <span
+            className="tp-retry-link"
+            onClick={() =>
+              redirectToWallet ? redirectToWallet() : handleRetry()
+            }
+          >
+            Click here
+          </span>
+          .
+        </div>
+      )}
+
+      {showMenu && showDropdown && (
+        <div className="tp-menu">
+          <div className="tp-menu-arrow" />
+          <div className="tp-menu-address">
+            {address?.slice(0, 4)}...{address?.slice(-4)}
+          </div>
+          <button
+            className="tp-menu-item danger"
+            onClick={() => {
+              handleDisconnect();
+              setShowMenu(false);
+            }}
+          >
+            <div className="tp-menu-icon">
+              <DisconnectIcon size={16} />
+            </div>
+            <span>Disconnect</span>
+          </button>
+        </div>
+      )}
 
       <PaymentModal
         isOpen={isModalOpen}
@@ -206,6 +285,7 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
         fetchOnRampLink={handleFetchOnRampLink}
         onRampAvailable={onRampAvailable}
         onPaymentSuccess={onCardPaymentSuccess}
+        isLoading={isLoading}
       />
 
       {errorMessage && (
@@ -216,4 +296,3 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
     </div>
   );
 };
-

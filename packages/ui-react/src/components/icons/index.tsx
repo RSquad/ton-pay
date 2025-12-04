@@ -10,7 +10,7 @@ export const TonIcon: React.FC<IconProps> = ({ size = 24, className }) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 24 24"
+    viewBox="0 0 24 26"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
@@ -32,7 +32,7 @@ export const TonIcon: React.FC<IconProps> = ({ size = 24, className }) => (
     </g>
     <defs>
       <clipPath id="ton-icon-clip">
-        <rect width="24" height="24" fill="white" />
+        <rect width="24" height="26" fill="white" />
       </clipPath>
     </defs>
   </svg>
@@ -115,26 +115,15 @@ export const CloseIcon: React.FC<IconProps> = ({
   <svg
     width={size}
     height={size}
-    viewBox="0 0 24 24"
+    viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
     aria-hidden
   >
-    <path
-      d="M18 6L6 18"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M6 6L18 18"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <rect width="32" height="32" rx="8" fill="#F4F4F4"/>
+    <path d="M8.99933 22.251L22.2501 9.00026" stroke="#7A7A7A" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M8.99933 9.08296L22.2501 22.3337" stroke="#7A7A7A" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 
@@ -256,3 +245,70 @@ export const SpinnerIcon: React.FC<{ className?: string }> = ({ className }) => 
   <span className={className} aria-hidden />
 );
 
+export const CardIcon: React.FC<IconProps> = ({
+  size = 20,
+  className,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden
+  >
+    <path d="M15.4688 5H4.53125C3.68693 5 3 5.71369 3 6.59091V13.4091C3 14.2863 3.68693 15 4.53125 15H15.4688C16.3131 15 17 14.2863 17 13.4091V6.59091C17 5.71369 16.3131 5 15.4688 5ZM4.53125 5.90909H15.4688C15.8306 5.90909 16.125 6.21497 16.125 6.59091V7.5H3.875V6.59091C3.875 6.21497 4.16941 5.90909 4.53125 5.90909ZM15.4688 14.0909H4.53125C4.16941 14.0909 3.875 13.785 3.875 13.4091V8.40909H16.125V13.4091C16.125 13.785 15.8306 14.0909 15.4688 14.0909Z" fill="white"/>
+    <path d="M6.33333 13H5.66667C5.2985 13 5 12.7015 5 12.3333V11.6667C5 11.2985 5.2985 11 5.66667 11H6.33333C6.7015 11 7 11.2985 7 11.6667V12.3333C7 12.7015 6.7015 13 6.33333 13Z" fill="white"/>
+  </svg>
+);
+
+export const CryptoIcon: React.FC<IconProps> = ({
+  size = 20,
+  className,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden
+  >
+    <path d="M14.3896 3.5H5.61006C3.99582 3.5 2.97267 5.24122 3.7848 6.64885L9.20318 16.0401C9.55683 16.6533 10.4429 16.6533 10.7965 16.0401L16.216 6.64885C17.027 5.24347 16.0028 3.5 14.3896 3.5ZM9.19879 13.2238L8.01872 10.9401L5.17144 5.84782C4.98361 5.52189 5.21561 5.10422 5.60896 5.10422H9.19772V13.225L9.19879 13.2238ZM14.826 5.84671L11.9798 10.9412L10.7998 13.2238V5.10312H14.3885C14.7818 5.10312 15.0138 5.52078 14.826 5.84671Z" fill="white"/>
+  </svg>
+);
+
+export const InfoIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = "currentColor",
+  className,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden
+  >
+    <circle cx="12" cy="12" r="10" stroke={color} strokeWidth="2" />
+    <path d="M12 16V12" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    <circle cx="12" cy="8" r="1" fill={color} />
+  </svg>
+);
+
+export const TonPayLogo: React.FC<IconProps> = ({ className }) => (
+  <div className={className} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+    <TonIconBlue size={26} />
+    <span style={{
+      fontWeight: 600, 
+      fontSize: '18px', 
+      lineHeight: '24px', 
+      color: '#000000',
+      letterSpacing: '-0.5px'
+    }}>Pay</span>
+  </div>
+);

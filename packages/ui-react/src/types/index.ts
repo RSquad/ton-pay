@@ -21,7 +21,9 @@ export type PayInfo<T extends object = object> = {
 } & T;
 
 export interface TonPayButtonProps {
-  handlePay: () => Promise<void>;
+  handlePay: (
+    onRequestSent?: (redirectToWallet: () => void) => void
+  ) => Promise<void>;
   isLoading?: boolean;
   variant?: TonPayVariant;
   preset?: TonPayPreset;
@@ -72,6 +74,7 @@ export interface PaymentModalProps {
   fetchOnRampLink?: (providerId: string) => Promise<string>;
   onRampAvailable?: boolean;
   onPaymentSuccess?: () => void;
+  isLoading?: boolean;
 }
 
 export type PaymentViewState = "main" | "card" | "success" | "error";
