@@ -11,7 +11,6 @@ import {
   CardIcon,
   CryptoIcon,
   TonPayLogo,
-  InfoIcon,
 } from "../icons";
 import type { PaymentModalProps, PaymentViewState } from "../../types";
 import "./PaymentModal.css";
@@ -25,7 +24,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   onPayWithCrypto,
   amount = "0.1",
   currency = "TON",
-  itemTitle = "Item",
+  itemTitle,
   walletAddress,
   onDisconnect,
   fetchOnRampLink,
@@ -185,14 +184,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
     const updateHeight = () => {
       if (view === "card") {
-        setSheetDetent([0.9]);
+        setSheetDetent((prev) => prev[0] === 0.9 ? prev : [0.9]);
         return;
       }
       if (contentRef.current) {
         const height = contentRef.current.scrollHeight;
         const windowHeight = window.innerHeight;
         const detent = Math.min((height + 40) / windowHeight, 0.95);
-        setSheetDetent([detent]);
+        setSheetDetent((prev) => Math.abs(prev[0] - detent) < 0.01 ? prev : [detent]);
       }
     };
 
@@ -272,12 +271,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             {amount} {currency} <TonIconBlue />
           </div>
         </div>
-        <div className="pm-order-info">
-          <span className="pm-order-text">{itemTitle}</span>
-          <div className="pm-info-icon">
-            <InfoIcon size={14} color="#004062" />
+        {itemTitle && (
+          <div className="pm-order-info">
+            <span className="pm-order-text">{itemTitle}</span>
           </div>
-        </div>
+        )}
       </div>
       <div className="pm-actions-card">
         <div className="pm-actions">

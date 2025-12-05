@@ -41,7 +41,7 @@
     },
     "packages/ui-react": {
       "name": "@ton-pay/ui-react",
-      "version": "0.2.0-beta.3",
+      "version": "0.2.0-beta.4",
       "devDependencies": {
         "@tonconnect/sdk": "^3.3.1",
         "@types/react": "^18.0.0",
