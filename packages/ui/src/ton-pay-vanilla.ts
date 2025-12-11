@@ -1,4 +1,4 @@
-import { TonConnectUI } from "@tonconnect/ui";
+import { TonConnectUI } from '@tonconnect/ui';
 
 export interface TonPayClientOptions {
   manifestUrl: string;
@@ -45,24 +45,28 @@ export class TonPayClient {
           resolve(wallet.account.address);
         }
       });
-      const unsubscribeModal = this.tonConnectUI.onModalStateChange((state: any) => {
-        if (state.status === "closed") {
-          clearTimeout(timer);
-          unsubscribe();
-          unsubscribeModal();
-          reject(new Error("Wallet connection modal closed"));
-        }
-      });
+      const unsubscribeModal = this.tonConnectUI.onModalStateChange(
+        (state: any) => {
+          if (state.status === 'closed') {
+            clearTimeout(timer);
+            unsubscribe();
+            unsubscribeModal();
+            reject(new Error('Wallet connection modal closed'));
+          }
+        },
+      );
       this.tonConnectUI.openModal();
       const timer = setTimeout(() => {
         unsubscribe();
         unsubscribeModal();
-        reject(new Error("Wallet connection timeout"));
+        reject(new Error('Wallet connection timeout'));
       }, this.connectTimeoutMs);
     });
   }
 
-  async pay(getMessage: (senderAddr: string) => Promise<GetMessageResult>): Promise<PayResult> {
+  async pay(
+    getMessage: (senderAddr: string) => Promise<GetMessageResult>,
+  ): Promise<PayResult> {
     const walletAddress = await this.waitForWalletConnection();
     const validUntil = Math.floor(Date.now() / 1e3) + 5 * 60;
     const messageResult = await getMessage(walletAddress);
@@ -87,4 +91,3 @@ if (typeof window !== 'undefined') {
   (window as any).createTonPay = createTonPay;
   (window as any).TonPayClient = TonPayClient;
 }
-

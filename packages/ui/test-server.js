@@ -73,4 +73,3 @@ const server = Bun.serve({
 
 console.log(`Server running at http://localhost:${PORT}/`);
 console.log(`Test page: http://localhost:${PORT}/test/index.html`);
-

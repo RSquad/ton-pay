@@ -1,18 +1,21 @@
-import type { SendTransactionRequest, SendTransactionResponse } from "@tonconnect/sdk";
-import type { CSSProperties, ReactNode } from "react";
-import type { Chain } from "@ton-pay/api";
+import type {
+  SendTransactionRequest,
+  SendTransactionResponse,
+} from '@tonconnect/sdk';
+import type { CSSProperties, ReactNode } from 'react';
+import type { Chain } from '@ton-pay/api';
 
 export type { Chain };
-export type TonPayPreset = "default" | "gradient";
-export type TonPayVariant = "long" | "short";
-export type OnRampProvider = "moonpay";
+export type TonPayPreset = 'default' | 'gradient';
+export type TonPayVariant = 'long' | 'short';
+export type OnRampProvider = 'moonpay';
 
-export type TonPayMessage = SendTransactionRequest["messages"][number] & {
+export type TonPayMessage = SendTransactionRequest['messages'][number] & {
   payload: string;
 };
 
 export type GetMessageFn<T extends object = object> = (
-  senderAddr: string
+  senderAddr: string,
 ) => Promise<{ message: TonPayMessage } & T>;
 
 export type PayInfo<T extends object = object> = {
@@ -22,7 +25,7 @@ export type PayInfo<T extends object = object> = {
 
 export interface TonPayButtonProps {
   handlePay: (
-    onRequestSent?: (redirectToWallet: () => void) => void
+    onRequestSent?: (redirectToWallet: () => void) => void,
   ) => Promise<void>;
   isLoading?: boolean;
   variant?: TonPayVariant;
@@ -77,7 +80,7 @@ export interface PaymentModalProps {
   isLoading?: boolean;
 }
 
-export type PaymentViewState = "main" | "card" | "success" | "error";
+export type PaymentViewState = 'main' | 'card' | 'success' | 'error';
 
 export interface BottomSheetProps {
   isOpen: boolean;
@@ -100,4 +103,3 @@ export interface UseMoonPayIframeOptions {
   chain?: Chain;
   provider?: OnRampProvider;
 }
-

@@ -1,5 +1,5 @@
-import * as React from "react";
-import type { NotificationProps } from "../../types";
+import * as React from 'react';
+import type { NotificationProps } from '../../types';
 
 const notificationStyles = `
 .tp-noti-root{position:fixed;top:16px;right:16px;z-index:10000;display:flex;flex-direction:column;gap:10px}
@@ -13,9 +13,9 @@ const notificationStyles = `
 let stylesInjected = false;
 
 function injectNotificationStyles(): void {
-  if (typeof document === "undefined" || stylesInjected) return;
-  const style = document.createElement("style");
-  style.id = "tonpay-notification-styles";
+  if (typeof document === 'undefined' || stylesInjected) return;
+  const style = document.createElement('style');
+  style.id = 'tonpay-notification-styles';
   style.textContent = notificationStyles;
   document.head.appendChild(style);
   stylesInjected = true;
@@ -32,7 +32,7 @@ export const NotificationCard: React.FC<NotificationProps> = ({
 }) => {
   return (
     <div
-      className={["tp-noti-card", className].filter(Boolean).join(" ")}
+      className={['tp-noti-card', className].filter(Boolean).join(' ')}
       style={style}
     >
       <div className="tp-noti-content">

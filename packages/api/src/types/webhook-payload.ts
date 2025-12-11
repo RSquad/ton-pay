@@ -1,5 +1,5 @@
-import type { CompletedTonPayTransferInfo } from "./completed-ton-pay-transfer-info";
-import type { WebhookEventType } from "./webhook-event-type";
+import type { CompletedTonPayTransferInfo } from './completed-ton-pay-transfer-info';
+import type { WebhookEventType } from './webhook-event-type';
 
 /**
  * Base webhook payload structure
@@ -17,7 +17,7 @@ interface BaseWebhookPayload {
  * Check `data.status` field to determine if transfer was "success" or "failed".
  */
 export interface TransferCompletedWebhookPayload extends BaseWebhookPayload {
-  event: "transfer.completed";
+  event: 'transfer.completed';
   data: CompletedTonPayTransferInfo;
 }
 
@@ -28,7 +28,7 @@ export interface TransferCompletedWebhookPayload extends BaseWebhookPayload {
  * Coming Soon - Sent when a transfer is refunded
  */
 export interface TransferRefundedWebhookPayload extends BaseWebhookPayload {
-  event: "transfer.refunded";
+  event: 'transfer.refunded';
   data: unknown; // Coming Soon - structure to be defined
 }
 

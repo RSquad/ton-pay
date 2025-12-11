@@ -1,29 +1,32 @@
-import * as React from "react";
-import { useEffect, useState, useCallback } from "react";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import type { TonPayButtonProps } from "../../types";
-import { classNames, toCssSize, getUserIp } from "../../utils";
-import { TonIcon, DisconnectIcon } from "../icons";
-import { NotificationRoot, ErrorTransactionNotification } from "../notification";
-import { PaymentModal } from "../payment-modal/PaymentModal";
-import { useMoonPayIframe } from "../../hooks/useMoonPayIframe";
-import { PRESETS, injectStyles } from "./styles";
+import * as React from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
+import type { TonPayButtonProps } from '../../types';
+import { classNames, toCssSize, getUserIp } from '../../utils';
+import { TonIcon, DisconnectIcon } from '../icons';
+import {
+  NotificationRoot,
+  ErrorTransactionNotification,
+} from '../notification';
+import { PaymentModal } from '../payment-modal/PaymentModal';
+import { useMoonPayIframe } from '../../hooks/useMoonPayIframe';
+import { PRESETS, injectStyles } from './styles';
 
 injectStyles();
 
 export const TonPayButton: React.FC<TonPayButtonProps> = ({
   handlePay,
   isLoading = false,
-  variant = "long",
+  variant = 'long',
   preset,
   bgColor,
   textColor,
   borderRadius = 8,
-  fontFamily = "inherit",
+  fontFamily = 'inherit',
   width = 300,
   height = 44,
   text,
-  loadingText = "Processing...",
+  loadingText = 'Processing...',
   style,
   className,
   disabled = false,
@@ -44,17 +47,17 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
   const [onRampAvailable, setOnRampAvailable] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [internalLoading, setInternalLoading] = useState(false);
-  const [userIp, setUserIp] = useState("");
+  const [userIp, setUserIp] = useState('');
   // We store the redirectToWallet function from ton-connect's onRequestSent callback
   // This allows us to manually trigger the wallet redirect when the user clicks "Click here",
   // which is necessary when automatic redirection fails due to platform limitations.
   const [redirectToWallet, setRedirectToWallet] = useState<(() => void) | null>(
-    null
+    null,
   );
 
   const { checkAvailability, fetchOnRampLink } = useMoonPayIframe({
     apiKey,
-    chain: "mainnet",
+    chain: 'mainnet',
   });
 
   useEffect(() => {
@@ -75,11 +78,11 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
         setInternalLoading(true);
         try {
           const parsedAmount =
-            typeof amount === "string" ? parseFloat(amount) : amount || 0;
+            typeof amount === 'string' ? parseFloat(amount) : amount || 0;
           const available = await checkAvailability(
             parsedAmount,
-            currency || "TON",
-            userIp
+            currency || 'TON',
+            userIp,
           );
           if (isActive) setOnRampAvailable(available);
         } catch {
@@ -100,12 +103,12 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (showMenu && !(event.target as Element).closest(".tp-wrap")) {
+      if (showMenu && !(event.target as Element).closest('.tp-wrap')) {
         setShowMenu(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showMenu]);
 
   const handleDisconnect = useCallback(() => {
@@ -123,10 +126,10 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
       onError?.(err);
       if (showErrorNotification) {
         const raw =
-          typeof err === "object" && err && "message" in err
+          typeof err === 'object' && err && 'message' in err
             ? String((err as Error).message)
-            : String(err ?? "");
-        setErrorMessage(raw || "Wallet connection modal closed");
+            : String(err ?? '');
+        setErrorMessage(raw || 'Wallet connection modal closed');
       }
     }
   }, [handlePay, onError, showErrorNotification]);
@@ -146,30 +149,30 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
   const handleFetchOnRampLink = useCallback(
     async (_providerId: string) => {
       return fetchOnRampLink({
-        amount:
-          typeof amount === "string" ? parseFloat(amount) : amount || 0,
-        asset: currency || "TON",
+        amount: typeof amount === 'string' ? parseFloat(amount) : amount || 0,
+        asset: currency || 'TON',
         recipientAddr: address,
         userIp,
-        redirectURL: "",
+        redirectURL: '',
       });
     },
-    [fetchOnRampLink, amount, currency, address, userIp]
+    [fetchOnRampLink, amount, currency, address, userIp],
   );
 
   const presetConfig = preset ? PRESETS[preset] : null;
-  const finalBgColor = bgColor ?? presetConfig?.bgColor ?? PRESETS.default.bgColor;
+  const finalBgColor =
+    bgColor ?? presetConfig?.bgColor ?? PRESETS.default.bgColor;
   const finalTextColor =
     textColor ?? presetConfig?.textColor ?? PRESETS.default.textColor;
 
   const cssVars: Record<string, string | number | undefined> = {
-    "--tp-bg": finalBgColor,
-    "--tp-text": finalTextColor,
-    "--tp-radius":
-      typeof borderRadius === "number" ? `${borderRadius}px` : borderRadius,
-    "--tp-font": fontFamily,
-    "--tp-width": toCssSize(width),
-    "--tp-height": toCssSize(height),
+    '--tp-bg': finalBgColor,
+    '--tp-text': finalTextColor,
+    '--tp-radius':
+      typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius,
+    '--tp-font': fontFamily,
+    '--tp-width': toCssSize(width),
+    '--tp-height': toCssSize(height),
   };
 
   const isDisabled = isLoading || disabled || internalLoading;
@@ -177,8 +180,8 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
 
   const renderContent = () => {
     if (text) return <span>{text}</span>;
-    
-    if (variant === "short") {
+
+    if (variant === 'short') {
       return (
         <div className="tp-btn-content">
           <TonIcon />
@@ -199,16 +202,16 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
   return (
     <div
       style={{ ...cssVars, ...style } as React.CSSProperties}
-      className={classNames("tp-wrap", className)}
+      className={classNames('tp-wrap', className)}
     >
       <div className="tp-btn-container">
         <button
           type="button"
           className={classNames(
-            "tp-btn",
-            isLoading && "processing",
-            isLoading && "loading",
-            showDropdown ? "with-menu" : "no-menu"
+            'tp-btn',
+            isLoading && 'processing',
+            isLoading && 'loading',
+            showDropdown ? 'with-menu' : 'no-menu',
           )}
           onClick={isDisabled ? undefined : onPayClick}
           disabled={isDisabled}
@@ -236,10 +239,10 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
           </button>
         )}
       </div>
-      
+
       {isLoading && (
         <div className="tp-retry-text">
-          Did the wallet fail to open?{" "}
+          Did the wallet fail to open?{' '}
           <span
             className="tp-retry-link"
             onClick={() =>
@@ -279,8 +282,8 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
         onPayWithCrypto={handlePayWithCrypto}
         walletAddress={address}
         onDisconnect={handleDisconnect}
-        amount={amount ? String(amount) : "0.1"}
-        currency={currency || "TON"}
+        amount={amount ? String(amount) : '0.1'}
+        currency={currency || 'TON'}
         itemTitle={itemTitle}
         fetchOnRampLink={handleFetchOnRampLink}
         onRampAvailable={onRampAvailable}

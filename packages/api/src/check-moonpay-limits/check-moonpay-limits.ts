@@ -1,9 +1,9 @@
-import { getBaseUrl } from "../common/get-base-url";
-import type { APIOptions } from "../types/api-options";
+import { getBaseUrl } from '../common/get-base-url';
+import type { APIOptions } from '../types/api-options';
 import type {
   CheckMoonpayLimitsParams,
   CheckMoonpayLimitsResponse,
-} from "../types/check-moonpay-limits";
+} from '../types/check-moonpay-limits';
 
 /**
  * Gets MoonPay amount limits for an asset
@@ -13,16 +13,16 @@ import type {
  */
 export const checkMoonpayLimits = async (
   params: CheckMoonpayLimitsParams,
-  options?: APIOptions
+  options?: APIOptions,
 ): Promise<CheckMoonpayLimitsResponse> => {
   const baseUrl = getBaseUrl(options?.chain);
   const headers = {
-    "Content-Type": "application/json",
-    ...(options?.apiKey ? { "x-api-key": options.apiKey } : {}),
+    'Content-Type': 'application/json',
+    ...(options?.apiKey ? { 'x-api-key': options.apiKey } : {}),
   };
 
   const response = await fetch(`${baseUrl}/api/external/moonpay/limits`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(params),
     headers,
   });
@@ -36,4 +36,3 @@ export const checkMoonpayLimits = async (
 
   return response.json();
 };
-

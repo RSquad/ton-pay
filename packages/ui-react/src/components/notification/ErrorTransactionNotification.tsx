@@ -1,6 +1,6 @@
-import * as React from "react";
-import { ErrorDotIcon } from "../icons";
-import { NotificationCard } from "./Notification";
+import * as React from 'react';
+import { ErrorDotIcon } from '../icons';
+import { NotificationCard } from './Notification';
 
 interface ErrorTransactionNotificationProps {
   text?: string;

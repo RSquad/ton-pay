@@ -1,10 +1,10 @@
-import type { MoonpayAmountLimits } from "./create-moonpay-transfer";
+import type { MoonpayAmountLimits } from './create-moonpay-transfer';
 
 /**
  * @param asset - jetton master address or TON coin address for TON
  */
 export type CheckMoonpayLimitsParams = {
-  asset: string
+  asset: string;
 };
 
 /**

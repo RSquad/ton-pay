@@ -1,13 +1,13 @@
-import type { TonPayButtonPresetConfig, TonPayPreset } from "../../types";
+import type { TonPayButtonPresetConfig, TonPayPreset } from '../../types';
 
 export const PRESETS: Record<TonPayPreset, TonPayButtonPresetConfig> = {
   default: {
-    bgColor: "#0098EA",
-    textColor: "#FFFFFF",
+    bgColor: '#0098EA',
+    textColor: '#FFFFFF',
   },
   gradient: {
-    bgColor: "linear-gradient(91.69deg, #2A82EB 8.9%, #0355CF 158.29%)",
-    textColor: "#FFFFFF",
+    bgColor: 'linear-gradient(91.69deg, #2A82EB 8.9%, #0355CF 158.29%)',
+    textColor: '#FFFFFF',
   },
 };
 
@@ -57,11 +57,10 @@ export const buttonStyles = `
 let stylesInjected = false;
 
 export function injectStyles(): void {
-  if (typeof document === "undefined" || stylesInjected) return;
-  const style = document.createElement("style");
-  style.id = "tonpay-button-styles";
+  if (typeof document === 'undefined' || stylesInjected) return;
+  const style = document.createElement('style');
+  style.id = 'tonpay-button-styles';
   style.textContent = buttonStyles;
   document.head.appendChild(style);
   stylesInjected = true;
 }
-

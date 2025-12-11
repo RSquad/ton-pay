@@ -1,3 +1,2 @@
-export { NotificationCard, NotificationRoot } from "./Notification";
-export { ErrorTransactionNotification } from "./ErrorTransactionNotification";
-
+export { NotificationCard, NotificationRoot } from './Notification';
+export { ErrorTransactionNotification } from './ErrorTransactionNotification';

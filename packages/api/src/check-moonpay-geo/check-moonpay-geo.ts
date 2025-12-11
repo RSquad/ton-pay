@@ -1,9 +1,9 @@
-import { getBaseUrl } from "../common/get-base-url";
-import type { APIOptions } from "../types/api-options";
+import { getBaseUrl } from '../common/get-base-url';
+import type { APIOptions } from '../types/api-options';
 import type {
   CheckMoonpayGeoParams,
   CheckMoonpayGeoResponse,
-} from "../types/check-moonpay-geo";
+} from '../types/check-moonpay-geo';
 
 /**
  * Checks MoonPay geo restrictions for an IP address
@@ -13,20 +13,20 @@ import type {
  */
 export const checkMoonpayGeo = async (
   params: CheckMoonpayGeoParams,
-  options?: APIOptions
+  options?: APIOptions,
 ): Promise<CheckMoonpayGeoResponse> => {
   const baseUrl = getBaseUrl(options?.chain);
   const headers = {
-    "Content-Type": "application/json",
-    ...(options?.apiKey ? { "x-api-key": options.apiKey } : {}),
+    'Content-Type': 'application/json',
+    ...(options?.apiKey ? { 'x-api-key': options.apiKey } : {}),
   };
 
   const response = await fetch(
     `${baseUrl}/api/external/moonpay/check-geo?ipAddress=${encodeURIComponent(params.ipAddress)}`,
     {
-      method: "GET",
+      method: 'GET',
       headers,
-    }
+    },
   );
 
   if (!response.ok) {
@@ -38,4 +38,3 @@ export const checkMoonpayGeo = async (
 
   return response.json();
 };
-

@@ -1,4 +1,4 @@
-import * as CryptoJS from "crypto-js";
+import * as CryptoJS from 'crypto-js';
 
 /**
  * Verifies the HMAC-SHA256 signature of a payload
@@ -38,10 +38,10 @@ import * as CryptoJS from "crypto-js";
 export function verifySignature(
   payload: string | object,
   signature: string,
-  apiSecret: string
+  apiSecret: string,
 ): boolean {
   const payloadString =
-    typeof payload === "string" ? payload : JSON.stringify(payload);
+    typeof payload === 'string' ? payload : JSON.stringify(payload);
 
   const hmac = CryptoJS.HmacSHA256(payloadString, apiSecret);
   const expectedSignature = `sha256=${hmac.toString(CryptoJS.enc.Hex)}`;

@@ -19,11 +19,11 @@ npm install @ton-pay/ui @tonconnect/ui
 Create a TON Pay client instance to handle wallet connections and transactions:
 
 ```javascript
-import { createTonPay } from "@ton-pay/ui/vanilla";
-import { createTonPayTransfer, TON } from "@ton-pay/api";
+import { createTonPay } from '@ton-pay/ui/vanilla';
+import { createTonPayTransfer, TON } from '@ton-pay/api';
 
 const tonPay = createTonPay({
-  manifestUrl: "https://your-domain.com/tonconnect-manifest.json",
+  manifestUrl: 'https://your-domain.com/tonconnect-manifest.json',
 });
 
 // Pay with TON
@@ -32,11 +32,11 @@ const result = await tonPay.pay(async (senderAddr) => {
     {
       amount: 10.5,
       asset: TON,
-      recipientAddr: "EQC...", // Optional if API key is provided
+      recipientAddr: 'EQC...', // Optional if API key is provided
       senderAddr,
-      commentToSender: "Payment for order #123",
+      commentToSender: 'Payment for order #123',
     },
-    { chain: "mainnet", apiKey: "your-api-key" }
+    { chain: 'mainnet', apiKey: 'your-api-key' },
   );
 
   return transfer;
@@ -127,13 +127,13 @@ The embed script exposes a global `TonPayEmbed` object:
 ```javascript
 // Change configuration
 TonPayEmbed.mount({
-  preset: "gradient",
-  variant: "short",
+  preset: 'gradient',
+  variant: 'short',
   borderRadius: 12,
 });
 
 // Set callback function name
-TonPayEmbed.setCallback("myCustomHandler");
+TonPayEmbed.setCallback('myCustomHandler');
 
 // Programmatically click the button
 TonPayEmbed.click();

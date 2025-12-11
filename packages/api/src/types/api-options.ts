@@ -1,4 +1,4 @@
-import type { Chain } from "./chain";
+import type { Chain } from './chain';
 
 export type APIOptions = {
   chain?: Chain;

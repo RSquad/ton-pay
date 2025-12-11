@@ -11,9 +11,9 @@ npm install @ton-pay/ui-react @ton-pay/api @tonconnect/ui-react
 ## Quick Start
 
 ```tsx
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
-import { TonPayButton, useTonPay } from "@ton-pay/ui-react";
-import { createTonPayTransfer, TON } from "@ton-pay/api";
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import { TonPayButton, useTonPay } from '@ton-pay/ui-react';
+import { createTonPayTransfer, TON } from '@ton-pay/api';
 
 function App() {
   return (
@@ -32,11 +32,11 @@ function PaymentForm() {
         {
           amount: 10.5,
           asset: TON,
-          recipientAddr: "EQC...",
+          recipientAddr: 'EQC...',
           senderAddr,
-          commentToSender: "Payment for order #123",
+          commentToSender: 'Payment for order #123',
         },
-        { chain: "mainnet", apiKey: "your-api-key" }
+        { chain: 'mainnet', apiKey: 'your-api-key' },
       );
     });
   };
@@ -63,23 +63,23 @@ Complete payment button with wallet connection, loading states, and error handli
 
 #### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `handlePay` | `() => Promise<void>` | **required** | Payment handler |
-| `isLoading` | `boolean` | `false` | Loading state |
-| `variant` | `"long" \| "short"` | `"long"` | Button text variant |
-| `preset` | `"default" \| "gradient"` | - | Theme preset |
-| `bgColor` | `string` | `"#0098EA"` | Background color |
-| `textColor` | `string` | `"#FFFFFF"` | Text color |
-| `borderRadius` | `number \| string` | `8` | Border radius |
-| `width` | `number \| string` | `300` | Button width |
-| `height` | `number \| string` | `44` | Button height |
-| `disabled` | `boolean` | `false` | Disabled state |
-| `amount` | `number \| string` | - | Payment amount |
-| `currency` | `string` | `"TON"` | Currency code |
-| `apiKey` | `string` | - | API key for on-ramp |
-| `onError` | `(error: unknown) => void` | - | Error callback |
-| `showErrorNotification` | `boolean` | `true` | Show error toast |
+| Prop                    | Type                       | Default      | Description         |
+| ----------------------- | -------------------------- | ------------ | ------------------- |
+| `handlePay`             | `() => Promise<void>`      | **required** | Payment handler     |
+| `isLoading`             | `boolean`                  | `false`      | Loading state       |
+| `variant`               | `"long" \| "short"`        | `"long"`     | Button text variant |
+| `preset`                | `"default" \| "gradient"`  | -            | Theme preset        |
+| `bgColor`               | `string`                   | `"#0098EA"`  | Background color    |
+| `textColor`             | `string`                   | `"#FFFFFF"`  | Text color          |
+| `borderRadius`          | `number \| string`         | `8`          | Border radius       |
+| `width`                 | `number \| string`         | `300`        | Button width        |
+| `height`                | `number \| string`         | `44`         | Button height       |
+| `disabled`              | `boolean`                  | `false`      | Disabled state      |
+| `amount`                | `number \| string`         | -            | Payment amount      |
+| `currency`              | `string`                   | `"TON"`      | Currency code       |
+| `apiKey`                | `string`                   | -            | API key for on-ramp |
+| `onError`               | `(error: unknown) => void` | -            | Error callback      |
+| `showErrorNotification` | `boolean`                  | `true`       | Show error toast    |
 
 ## Hooks
 
@@ -92,15 +92,18 @@ const { pay, address } = useTonPay();
 
 const handlePayment = async () => {
   const result = await pay(async (senderAddr) => {
-    return createTonPayTransfer({
-      amount: 10.5,
-      asset: TON,
-      recipientAddr: "EQC...",
-      senderAddr,
-    }, { chain: "mainnet", apiKey: "your-api-key" });
+    return createTonPayTransfer(
+      {
+        amount: 10.5,
+        asset: TON,
+        recipientAddr: 'EQC...',
+        senderAddr,
+      },
+      { chain: 'mainnet', apiKey: 'your-api-key' },
+    );
   });
-  
-  console.log("Transaction:", result.txResult);
+
+  console.log('Transaction:', result.txResult);
 };
 ```
 
@@ -109,13 +112,9 @@ const handlePayment = async () => {
 Hook for MoonPay on-ramp integration.
 
 ```tsx
-const { 
-  checkAvailability, 
-  fetchOnRampLink, 
-  loading 
-} = useMoonPayIframe({
-  apiKey: "your-api-key",
-  chain: "mainnet",
+const { checkAvailability, fetchOnRampLink, loading } = useMoonPayIframe({
+  apiKey: 'your-api-key',
+  chain: 'mainnet',
 });
 ```
 
@@ -148,8 +147,8 @@ Built-in theme presets:
 The button uses CSS variables for theming:
 
 ```css
---tp-bg: #0098EA;
---tp-text: #FFFFFF;
+--tp-bg: #0098ea;
+--tp-text: #ffffff;
 --tp-radius: 8px;
 --tp-font: inherit;
 --tp-width: 300px;
@@ -166,7 +165,7 @@ import type {
   PayInfo,
   GetMessageFn,
   TonPayMessage,
-} from "@ton-pay/ui-react";
+} from '@ton-pay/ui-react';
 ```
 
 ## License

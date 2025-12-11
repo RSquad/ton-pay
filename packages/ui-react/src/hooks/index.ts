@@ -1,2 +1,2 @@
-export { useTonPay } from "./useTonPay";
-export { useMoonPayIframe } from "./useMoonPayIframe";
+export { useTonPay } from './useTonPay';
+export { useMoonPayIframe } from './useMoonPayIframe';

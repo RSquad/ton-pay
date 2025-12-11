@@ -22,28 +22,28 @@ import {
   verifySignature,
   TON,
   USDT,
-} from "@ton-pay/api";
+} from '@ton-pay/api';
 
 // Create a TON Pay transfer
 const transfer = await createTonPayTransfer(
   {
     amount: 10.5,
     asset: TON,
-    recipientAddr: "EQC...", // Optional if API key is provided
-    senderAddr: "EQC...",
-    commentToSender: "Payment for order #123",
-    commentToRecipient: "Thank you!",
+    recipientAddr: 'EQC...', // Optional if API key is provided
+    senderAddr: 'EQC...',
+    commentToSender: 'Payment for order #123',
+    commentToRecipient: 'Thank you!',
   },
   {
-    chain: "mainnet",
-    apiKey: "your-api-key",
-  }
+    chain: 'mainnet',
+    apiKey: 'your-api-key',
+  },
 );
 
 // Get transfer status by reference
 const transferInfo = await getTonPayTransferByReference(transfer.reference, {
-  chain: "mainnet",
-  apiKey: "your-api-key",
+  chain: 'mainnet',
+  apiKey: 'your-api-key',
 });
 
 // Verify webhook signature

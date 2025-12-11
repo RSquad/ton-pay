@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom/client';
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import {
   useTonPay,
   TonPayButton,
   NotificationRoot,
   ErrorTransactionNotification,
-} from "../src";
-import { createTonPayTransfer } from "@ton-pay/api";
+} from '../src';
+import { createTonPayTransfer } from '@ton-pay/api';
 
 const ButtonDemo = ({
   label,
@@ -41,10 +41,10 @@ const App = () => {
     const raw =
       (err && (err.message || err.reason || err.error || String(e))) ||
       String(e);
-    if (typeof raw !== "string") return "Operation failed";
+    if (typeof raw !== 'string') return 'Operation failed';
     const m = raw.match(/SendTransactionRequest[^\n]+/i);
     if (m) return m[0];
-    return raw.replace(/^_?TonConnectError:\s*/i, "").split("\n")[0];
+    return raw.replace(/^_?TonConnectError:\s*/i, '').split('\n')[0];
   };
 
   const handlePay = async () => {
@@ -52,23 +52,28 @@ const App = () => {
     setIsPaying(true);
     try {
       const result = await pay(async (senderAddr: string) => {
-        const { message, reference, bodyBase64Hash } = await createTonPayTransfer(
-          {
-            amount: 3.5,
-            asset: "TON",
-            recipientAddr: "EQC........................................RECIPIENT",
-            senderAddr,
-            commentToSender: "Cart #8451",
-          },
-          { chain: "mainnet" }
-        );
+        const { message, reference, bodyBase64Hash } =
+          await createTonPayTransfer(
+            {
+              amount: 3.5,
+              asset: 'TON',
+              recipientAddr:
+                'EQC........................................RECIPIENT',
+              senderAddr,
+              commentToSender: 'Cart #8451',
+            },
+            { chain: 'mainnet' },
+          );
         return { message, reference, bodyBase64Hash };
       });
-      console.log("Sent:", result.txResult);
-      console.log("Tracking:", result.reference, result.bodyBase64Hash);
-      console.log("Payload base64:", result.message.payload);
+      console.log('Sent:', result.txResult);
+      console.log('Tracking:', result.reference, result.bodyBase64Hash);
+      console.log('Payload base64:', result.message.payload);
     } catch (e) {
-      console.log("Demo pay error (expected in showcase without valid data):", e);
+      console.log(
+        'Demo pay error (expected in showcase without valid data):',
+        e,
+      );
       setErrorText(parseError(e));
     } finally {
       setIsPaying(false);
@@ -76,7 +81,7 @@ const App = () => {
   };
 
   const Btn = (
-    props: Omit<React.ComponentProps<typeof TonPayButton>, "handlePay">
+    props: Omit<React.ComponentProps<typeof TonPayButton>, 'handlePay'>,
   ) => <TonPayButton {...props} isLoading={isPaying} handlePay={handlePay} />;
 
   return (
@@ -303,8 +308,8 @@ const App = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <TonConnectUIProvider manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json">
     <App />
-  </TonConnectUIProvider>
+  </TonConnectUIProvider>,
 );

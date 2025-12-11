@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,7 +22,13 @@
         box-sizing: border-box;
       }
       body {
-        font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+        font-family:
+          Manrope,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
           sans-serif;
         background: #f5f7fb;
         margin: 0;
@@ -79,8 +85,8 @@
         color: #68d391;
         padding: 10px;
         border-radius: 8px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          monospace;
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-size: 12px;
       }
       .v-btn {
@@ -99,7 +105,9 @@
         border-radius: 8px;
         border: none;
         cursor: pointer;
-        transition: filter 0.12s ease, transform 0.12s ease;
+        transition:
+          filter 0.12s ease,
+          transform 0.12s ease;
       }
       .v-btn:hover {
         filter: brightness(0.92);
@@ -178,24 +186,24 @@
 
     <script type="module" src="../dist/ton-pay-vanilla.mjs"></script>
     <script type="module">
-      import { createTonPay } from "../dist/ton-pay-vanilla.mjs";
+      import { createTonPay } from '../dist/ton-pay-vanilla.mjs';
       const tonPay = createTonPay({
         manifestUrl:
-          "https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json",
+          'https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json',
       });
       window.payWithTon = async () => {
         try {
           const result = await tonPay.pay(async (senderAddr) => {
             const message = {
-              address: "EQC........................................RECIPIENT",
-              amount: "1000000",
-              payload: "dGVzdA==",
+              address: 'EQC........................................RECIPIENT',
+              amount: '1000000',
+              payload: 'dGVzdA==',
             };
             return { message };
           });
           console.log(result.txResult);
         } catch (e) {
-          console.log("Demo pay error (expected without valid data):", e);
+          console.log('Demo pay error (expected without valid data):', e);
         }
       };
     </script>

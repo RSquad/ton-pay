@@ -1,7 +1,7 @@
-import * as React from "react";
-import { useEffect, useRef, useState, useCallback } from "react";
-import "./BottomSheet.css";
-import type { BottomSheetProps } from "../../types";
+import * as React from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import './BottomSheet.css';
+import type { BottomSheetProps } from '../../types';
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
   isOpen,
@@ -9,14 +9,14 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   detents = [0.5, 0.9],
   initialDetent = 0,
   children,
-  className = "",
-  backdropClassName = "",
-  handleClassName = "",
-  contentClassName = "",
+  className = '',
+  backdropClassName = '',
+  handleClassName = '',
+  contentClassName = '',
   enableBackdropClose = true,
   enableSwipeToClose = true,
-  maxHeight = "90vh",
-  minHeight = "20vh",
+  maxHeight = '90vh',
+  minHeight = '20vh',
 }) => {
   const sheetRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       const clampedIndex = Math.max(0, Math.min(index, detents.length - 1));
       return detents[clampedIndex];
     },
-    [detents]
+    [detents],
   );
 
   const calculateSheetHeight = useCallback((): number => {
@@ -136,12 +136,15 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
       return nearestIndex;
     },
-    [detents]
+    [detents],
   );
 
   const snapToDetent = useCallback(
     (detentIndex: number) => {
-      const clampedIndex = Math.max(0, Math.min(detentIndex, detents.length - 1));
+      const clampedIndex = Math.max(
+        0,
+        Math.min(detentIndex, detents.length - 1),
+      );
       isSnappingRef.current = true;
       targetDetentRef.current = clampedIndex;
       const viewportHeight = window.innerHeight;
@@ -153,7 +156,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         targetDetentRef.current = null;
       }, 200);
     },
-    [detents, getDetentValue]
+    [detents, getDetentValue],
   );
 
   const handleTouchStart = useCallback(
@@ -174,7 +177,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         canDragRef.current = true;
       }
     },
-    [isOpen, isClosing]
+    [isOpen, isClosing],
   );
 
   const calculateNewHeight = useCallback(
@@ -196,15 +199,21 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         if (isDraggingDown && enableSwipeToClose) {
           newHeight = Math.max(0, Math.min(maxDetentHeight, newHeight));
         } else {
-          newHeight = Math.max(minDetentHeight, Math.min(maxDetentHeight, newHeight));
+          newHeight = Math.max(
+            minDetentHeight,
+            Math.min(maxDetentHeight, newHeight),
+          );
         }
       } else {
-        newHeight = Math.max(minDetentHeight, Math.min(maxDetentHeight, newHeight));
+        newHeight = Math.max(
+          minDetentHeight,
+          Math.min(maxDetentHeight, newHeight),
+        );
       }
 
       return newHeight;
     },
-    [currentDetent, detents, enableSwipeToClose, getDetentValue]
+    [currentDetent, detents, enableSwipeToClose, getDetentValue],
   );
 
   const handleTouchMoveNative = useCallback(
@@ -225,7 +234,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       const touchTarget = e.target as HTMLElement;
       const isTouchingContent = contentRef.current.contains(touchTarget);
       const isTouchingHandle =
-        touchTarget.closest(".bottom-sheet-handle-container") !== null;
+        touchTarget.closest('.bottom-sheet-handle-container') !== null;
 
       if (isDragging) {
         if (e.cancelable) e.preventDefault();
@@ -261,7 +270,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         }
       }
     },
-    [isOpen, isDragging, isClosing, calculateNewHeight]
+    [isOpen, isDragging, isClosing, calculateNewHeight],
   );
 
   const handleTouchEnd = useCallback(
@@ -281,11 +290,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       const swipeDuration = Date.now() - touchStartTimeRef.current;
 
       const finalTouchY =
-        e && "changedTouches" in e && e.changedTouches[0]
+        e && 'changedTouches' in e && e.changedTouches[0]
           ? e.changedTouches[0].clientY
           : currentY;
       const swipeDistance = finalTouchY - touchStartYRef.current;
-      const swipeVelocity = Math.abs(swipeDistance) / Math.max(swipeDuration, 1);
+      const swipeVelocity =
+        Math.abs(swipeDistance) / Math.max(swipeDuration, 1);
       const isAtMaxDetent = currentDetent === detents.length - 1;
       const isAtMinDetent = currentDetent === 0;
       const isSwipingDown = swipeDistance > 0;
@@ -308,7 +318,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         const midpoint = (minDetentValue + nextDetentValue) / 2;
 
         const shouldGoToNextDetent =
-          (isSwipingUp && (Math.abs(swipeDistance) > 30 || swipeVelocity > 0.2)) ||
+          (isSwipingUp &&
+            (Math.abs(swipeDistance) > 30 || swipeVelocity > 0.2)) ||
           currentPosition >= midpoint;
 
         if (shouldGoToNextDetent) {
@@ -344,7 +355,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       handleClose,
       findNearestDetent,
       snapToDetent,
-    ]
+    ],
   );
 
   const handleMouseDown = useCallback(
@@ -363,7 +374,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         canDragRef.current = true;
       }
     },
-    [isOpen, isClosing]
+    [isOpen, isClosing],
   );
 
   const handleMouseMove = useCallback(
@@ -383,15 +394,29 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       if (isAtMaxDetent) {
         newHeight = Math.max(0, Math.min(maxDetentHeight, newHeight));
       } else if (isAtMinDetent) {
-        newHeight = Math.max(minDetentHeight, Math.min(maxDetentHeight, newHeight));
+        newHeight = Math.max(
+          minDetentHeight,
+          Math.min(maxDetentHeight, newHeight),
+        );
       } else {
-        newHeight = Math.max(minDetentHeight, Math.min(maxDetentHeight, newHeight));
+        newHeight = Math.max(
+          minDetentHeight,
+          Math.min(maxDetentHeight, newHeight),
+        );
       }
 
       setSheetHeight(newHeight);
       setCurrentY(e.clientY);
     },
-    [isOpen, isDragging, startY, currentDetent, detents, getDetentValue, isClosing]
+    [
+      isOpen,
+      isDragging,
+      startY,
+      currentDetent,
+      detents,
+      getDetentValue,
+      isClosing,
+    ],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -467,11 +492,11 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
       return () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
@@ -480,35 +505,35 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     (e: TouchEvent) => {
       handleTouchEnd(e);
     },
-    [handleTouchEnd]
+    [handleTouchEnd],
   );
 
   useEffect(() => {
     const sheetElement = sheetRef.current;
     if (!sheetElement || !isOpen) return;
 
-    sheetElement.addEventListener("touchmove", handleTouchMoveNative, {
+    sheetElement.addEventListener('touchmove', handleTouchMoveNative, {
       passive: false,
     });
-    sheetElement.addEventListener("touchend", handleTouchEndNative, {
+    sheetElement.addEventListener('touchend', handleTouchEndNative, {
       passive: false,
     });
 
     return () => {
-      sheetElement.removeEventListener("touchmove", handleTouchMoveNative);
-      sheetElement.removeEventListener("touchend", handleTouchEndNative);
+      sheetElement.removeEventListener('touchmove', handleTouchMoveNative);
+      sheetElement.removeEventListener('touchend', handleTouchEndNative);
     };
   }, [isOpen, handleTouchMoveNative, handleTouchEndNative]);
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
         closeTimeoutRef.current = null;
@@ -523,8 +548,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
   if (!isOpen && !isClosing) return null;
 
-  const maxHeightValue = typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
-  const minHeightValue = typeof minHeight === "number" ? `${minHeight}px` : minHeight;
+  const maxHeightValue =
+    typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+  const minHeightValue =
+    typeof minHeight === 'number' ? `${minHeight}px` : minHeight;
   const currentHeight = `${sheetHeight}px`;
 
   const calculateBackdropOpacity = (): number => {
@@ -556,19 +583,19 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       ? {}
       : {
           transition:
-            "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            'background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         }),
   };
 
   return (
     <div
-      className={`bottom-sheet-backdrop ${backdropClassName} ${isClosing ? "closing" : ""}`}
+      className={`bottom-sheet-backdrop ${backdropClassName} ${isClosing ? 'closing' : ''}`}
       onClick={enableBackdropClose ? handleClose : undefined}
       style={backdropStyle}
     >
       <div
         ref={sheetRef}
-        className={`bottom-sheet ${className} ${isDragging ? "dragging" : ""} ${isClosing ? "closing" : ""}`}
+        className={`bottom-sheet ${className} ${isDragging ? 'dragging' : ''} ${isClosing ? 'closing' : ''}`}
         style={{
           height: currentHeight,
           maxHeight: maxHeightValue,
@@ -589,7 +616,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         </div>
         <div
           ref={contentRef}
-          className={`bottom-sheet-content ${contentClassName} ${isScrolling ? "scrolling" : ""}`}
+          className={`bottom-sheet-content ${contentClassName} ${isScrolling ? 'scrolling' : ''}`}
         >
           {children}
         </div>

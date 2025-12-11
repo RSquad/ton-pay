@@ -17,6 +17,7 @@ bun run test:button
 ```
 
 This will:
+
 1. Install dependencies in the test folder
 2. Start a Vite dev server on `http://localhost:3000`
 3. Automatically open the showcase in your browser
@@ -26,20 +27,25 @@ This will:
 The showcase displays:
 
 ### Default Option
+
 - 6 combinations of long/short variants with rounded (8px), square (0px), and pill (99px) border radius
 
 ### Preset 1: Gradient
+
 - 6 combinations using the gradient preset
 
 ### Preset 2: Black Theme
+
 - Custom black theme examples with different variants and border radii
 
 ### Custom Styles
+
 - Purple, green, red, and amber color themes
 - Custom text examples
 - Large and compact size examples
 
 ### States
+
 - Loading state with spinner
 - Disabled state
 - Button without dropdown menu
@@ -63,17 +69,3 @@ test/
 ├── tsconfig.json          # TypeScript configuration
 └── README.md              # This file
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-

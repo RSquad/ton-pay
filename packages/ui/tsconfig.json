@@ -6,9 +6,5 @@
     "jsx": "preserve",
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
-  "include": [
-    "src",
-    "test"
-  ]
+  "include": ["src", "test"]
 }
-

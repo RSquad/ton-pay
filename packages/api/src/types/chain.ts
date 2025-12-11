@@ -1,1 +1,1 @@
-export type Chain = "mainnet" | "testnet";
+export type Chain = 'mainnet' | 'testnet';

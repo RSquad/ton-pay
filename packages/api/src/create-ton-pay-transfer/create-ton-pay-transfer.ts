@@ -1,7 +1,7 @@
-import { getBaseUrl } from "../common/get-base-url";
-import type { APIOptions } from "../types/api-options";
-import type { CreateTonPayTransferParams } from "../types/create-ton-pay-transfer";
-import type { CreateTonPayTransferResponse } from "../types/create-ton-pay-transfer";
+import { getBaseUrl } from '../common/get-base-url';
+import type { APIOptions } from '../types/api-options';
+import type { CreateTonPayTransferParams } from '../types/create-ton-pay-transfer';
+import type { CreateTonPayTransferResponse } from '../types/create-ton-pay-transfer';
 
 /**
  * Creates a message for TON Pay transfer
@@ -12,20 +12,20 @@ import type { CreateTonPayTransferResponse } from "../types/create-ton-pay-trans
 
 export const createTonPayTransfer = async (
   params: CreateTonPayTransferParams,
-  options?: APIOptions
+  options?: APIOptions,
 ): Promise<CreateTonPayTransferResponse> => {
   const baseUrl = getBaseUrl(options?.chain);
   const headers = {
-    "Content-Type": "application/json",
-    ...(options?.apiKey ? { "x-api-key": options.apiKey } : {}),
+    'Content-Type': 'application/json',
+    ...(options?.apiKey ? { 'x-api-key': options.apiKey } : {}),
   };
   const response = await fetch(`${baseUrl}/api/merchant/v1/create-transfer`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(params),
     headers,
   });
   if (!response.ok) {
-    throw new Error("Failed to create TON Pay transfer", {
+    throw new Error('Failed to create TON Pay transfer', {
       cause: response.statusText,
     });
   }

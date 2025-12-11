@@ -1,2 +1,1 @@
-export { TonPayButton } from "./TonPayButton";
-
+export { TonPayButton } from './TonPayButton';

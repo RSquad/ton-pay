@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   useTonAddress,
   useTonConnectModal,
   useTonConnectUI,
-} from "@tonconnect/ui-react";
-import type { GetMessageFn, PayInfo } from "../types";
+} from '@tonconnect/ui-react';
+import type { GetMessageFn, PayInfo } from '../types';
 
 const WALLET_CONNECTION_TIMEOUT = 5 * 60 * 1000;
 const TX_VALID_DURATION = 5 * 60;
@@ -32,17 +32,17 @@ export function useTonPay() {
       });
 
       const unsubscribeModal = tonConnectUI.onModalStateChange((state) => {
-        if (state.status === "closed") {
+        if (state.status === 'closed') {
           unsubscribe();
           unsubscribeModal();
-          reject(new Error("Wallet connection modal closed"));
+          reject(new Error('Wallet connection modal closed'));
         }
       });
 
       setTimeout(() => {
         unsubscribe();
         unsubscribeModal();
-        reject(new Error("Wallet connection timeout"));
+        reject(new Error('Wallet connection timeout'));
       }, WALLET_CONNECTION_TIMEOUT);
     });
   }, [address, modal, tonConnectUI]);
@@ -50,7 +50,7 @@ export function useTonPay() {
   const pay = React.useCallback(
     async <T extends object = object>(
       getMessage: GetMessageFn<T>,
-      options?: { onRequestSent?: (redirectToWallet: () => void) => void }
+      options?: { onRequestSent?: (redirectToWallet: () => void) => void },
     ): Promise<PayInfo<T>> => {
       const walletAddress = await waitForWalletConnection();
       const validUntil = Math.floor(Date.now() / 1e3) + TX_VALID_DURATION;
@@ -64,12 +64,12 @@ export function useTonPay() {
         },
         {
           onRequestSent: options?.onRequestSent,
-        }
+        },
       );
 
       return { ...messageResult, txResult };
     },
-    [waitForWalletConnection, tonConnectUI]
+    [waitForWalletConnection, tonConnectUI],
   );
 
   return { pay, address };

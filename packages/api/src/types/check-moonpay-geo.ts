@@ -1,4 +1,4 @@
-import type { MoonpayGeoResult } from "./create-moonpay-transfer";
+import type { MoonpayGeoResult } from './create-moonpay-transfer';
 
 /**
  * @param ipAddress - IP address to check for geo restrictions
@@ -11,4 +11,3 @@ export type CheckMoonpayGeoParams = {
  * MoonPay geo check response
  */
 export type CheckMoonpayGeoResponse = MoonpayGeoResult;
-

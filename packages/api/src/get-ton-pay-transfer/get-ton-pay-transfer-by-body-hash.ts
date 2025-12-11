@@ -1,6 +1,6 @@
-import { getBaseUrl } from "../common/get-base-url";
-import type { APIOptions } from "../types/api-options";
-import type { CompletedTonPayTransferInfo } from "../types/completed-ton-pay-transfer-info";
+import { getBaseUrl } from '../common/get-base-url';
+import type { APIOptions } from '../types/api-options';
+import type { CompletedTonPayTransferInfo } from '../types/completed-ton-pay-transfer-info';
 
 /**
  * Gets a TON Pay transfer by reference
@@ -11,17 +11,17 @@ import type { CompletedTonPayTransferInfo } from "../types/completed-ton-pay-tra
 
 export const getTonPayTransferByBodyHash = async (
   bodyHash: string,
-  options?: APIOptions
+  options?: APIOptions,
 ): Promise<CompletedTonPayTransferInfo> => {
   const baseUrl = getBaseUrl(options?.chain);
   const response = await fetch(
     `${baseUrl}/api/merchant/v1/transfer?bodyHash=${bodyHash}`,
     {
-      method: "GET",
-    }
+      method: 'GET',
+    },
   );
   if (!response.ok) {
-    throw new Error("Failed to get TON Pay transfer by body hash", {
+    throw new Error('Failed to get TON Pay transfer by body hash', {
       cause: response.statusText,
     });
   }

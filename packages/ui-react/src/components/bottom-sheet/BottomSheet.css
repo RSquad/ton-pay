@@ -55,7 +55,9 @@
   flex-direction: column;
   overflow: hidden;
   touch-action: none;
-  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: height, transform;
   transform: translateY(0);
 }
@@ -116,11 +118,11 @@
 
 @media (prefers-color-scheme: dark) {
   .bottom-sheet {
-    background-color: #1C2633;
+    background-color: #1c2633;
     box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
   }
-  
+
   .bottom-sheet-handle {
-    background-color: #4B5563;
+    background-color: #4b5563;
   }
 }
