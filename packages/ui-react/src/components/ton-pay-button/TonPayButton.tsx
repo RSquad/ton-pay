@@ -184,7 +184,7 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
     if (variant === 'short') {
       return (
         <div className="tp-btn-content">
-          <TonIcon />
+          <TonIcon bgColor={finalBgColor} textColor={finalTextColor} />
           <span>Pay</span>
         </div>
       );
@@ -193,7 +193,7 @@ export const TonPayButton: React.FC<TonPayButtonProps> = ({
     return (
       <div className="tp-btn-content">
         <span>Pay with</span>
-        <TonIcon />
+        <TonIcon bgColor={finalBgColor} textColor={finalTextColor} />
         <span>Pay</span>
       </div>
     );

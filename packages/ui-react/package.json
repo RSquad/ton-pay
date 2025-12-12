@@ -1,6 +1,6 @@
 {
   "name": "@ton-pay/ui-react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React components and hooks for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,6 +15,13 @@
       "require": "./dist/index.js"
     }
   },
+  "imports": {
+    "#style-inject": {
+      "types": "./dist/style-inject.d.ts",
+      "import": "./dist/style-inject.mjs",
+      "require": "./dist/style-inject.js"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -26,7 +33,8 @@
   },
   "tsup": {
     "entry": [
-      "src/index.ts"
+      "src/index.ts",
+      "src/style-inject.ts"
     ],
     "format": [
       "cjs",
@@ -56,7 +64,7 @@
     "@tonconnect/ui-react": "^2.2.0",
     "@ton-pay/api": ">=0.1.0"
   },
-  "devDependencies": {
+"devDependencies": {
     "@tonconnect/sdk": "^3.3.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",

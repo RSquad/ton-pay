@@ -6,7 +6,17 @@ interface IconProps {
   className?: string;
 }
 
-export const TonIcon: React.FC<IconProps> = ({ size = 24, className }) => (
+type TonIconProps = Omit<IconProps, 'color'> & {
+  bgColor?: string;
+  textColor?: string;
+};
+
+export const TonIcon: React.FC<TonIconProps> = ({
+  size = 24,
+  bgColor = '#0098EA',
+  textColor = 'white',
+  className,
+}) => (
   <svg
     width={size}
     height={size}
@@ -19,15 +29,11 @@ export const TonIcon: React.FC<IconProps> = ({ size = 24, className }) => (
     <g clipPath="url(#ton-icon-clip)">
       <path
         d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37257 18.6274 0 12 0C5.37257 0 0 5.37257 0 12C0 18.6274 5.37257 24 12 24Z"
-        fill="#0098EA"
-      />
-      <path
-        d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37257 18.6274 0 12 0C5.37257 0 0 5.37257 0 12C0 18.6274 5.37257 24 12 24Z"
-        fill="white"
+        fill={bgColor}
       />
       <path
         d="M16.0972 6.69763H7.9022C6.39543 6.69763 5.4404 8.32299 6.19846 9.63695L11.2561 18.4033C11.5862 18.9757 12.4133 18.9757 12.7433 18.4033L17.802 9.63695C18.559 8.32509 17.604 6.69763 16.0982 6.69763H16.0972ZM11.252 15.7744L10.1505 13.6426L7.49278 8.88922C7.31746 8.58497 7.53401 8.1951 7.90117 8.1951H11.251V15.7754L11.252 15.7744ZM16.5046 8.88819L13.8479 13.6437L12.7464 15.7744V8.19407H16.0962C16.4633 8.19407 16.6799 8.58395 16.5046 8.88819Z"
-        fill="#0098EA"
+        fill={textColor}
       />
     </g>
     <defs>

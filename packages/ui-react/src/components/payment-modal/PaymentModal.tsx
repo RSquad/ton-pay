@@ -333,11 +333,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             </button>
           )}
         </div>
-        {onRampAvailable && !isLoading && (
-          <div className="pm-footer">
-            <span className="pm-footer-text">Processed by {PROVIDER.name}</span>
-          </div>
-        )}
       </div>
     </div>
   );
