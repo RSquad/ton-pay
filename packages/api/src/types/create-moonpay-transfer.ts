@@ -48,6 +48,8 @@ export type CreateMoonpayTransferParams = {
   recipientAddr?: string;
   userIp: string;
   redirectURL: string;
+  /** If true, funds go directly to recipientAddr without proxy contract or memo tag */
+  directTopUp?: boolean;
 };
 
 /**
@@ -57,6 +59,7 @@ export type CreateMoonpayTransferParams = {
  */
 export type CreateMoonpayTransferResponse = {
   link: string;
+  reference: string;
   geo?: MoonpayGeoResult;
   limits: MoonpayAmountLimits;
 };

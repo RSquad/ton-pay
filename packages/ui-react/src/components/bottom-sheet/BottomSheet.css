@@ -49,7 +49,7 @@
   width: 100%;
   max-width: 100%;
   background-color: #ffffff;
-  border-radius: 20px 20px 0 0;
+  border-radius: 32px 32px 0 0;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -117,12 +117,21 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .bottom-sheet {
+  .bottom-sheet:not([data-theme='light']) {
     background-color: #1c2633;
     box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
   }
 
-  .bottom-sheet-handle {
+  .bottom-sheet:not([data-theme='light']) .bottom-sheet-handle {
     background-color: #4b5563;
   }
+}
+
+.bottom-sheet[data-theme='light'] {
+  background-color: #ffffff;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-sheet[data-theme='light'] .bottom-sheet-handle {
+  background-color: #d1d5db;
 }

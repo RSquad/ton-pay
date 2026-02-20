@@ -18,7 +18,6 @@ export const checkMoonpayGeo = async (
   const baseUrl = getBaseUrl(options?.chain);
   const headers = {
     'Content-Type': 'application/json',
-    ...(options?.apiKey ? { 'x-api-key': options.apiKey } : {}),
   };
 
   const response = await fetch(

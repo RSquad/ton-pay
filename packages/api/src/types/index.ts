@@ -5,7 +5,6 @@ export * from './create-ton-pay-transfer';
 export * from './create-moonpay-transfer';
 export * from './check-moonpay-geo';
 export * from './check-moonpay-limits';
-export * from './check-moonpay-availability';
 export * from './get-ton-pay-transfer-by-body-hash';
 export * from './get-ton-pay-transfer-by-reference';
 export * from './webhook-event-type';

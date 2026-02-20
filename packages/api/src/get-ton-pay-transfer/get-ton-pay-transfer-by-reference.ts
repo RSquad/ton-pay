@@ -14,10 +14,14 @@ export const getTonPayTransferByReference = async (
   options?: APIOptions,
 ): Promise<CompletedTonPayTransferInfo> => {
   const baseUrl = getBaseUrl(options?.chain);
+  const headers: HeadersInit = {
+    ...(options?.apiKey ? { 'x-api-key': options.apiKey } : {}),
+  };
   const response = await fetch(
     `${baseUrl}/api/merchant/v1/transfer?reference=${reference}`,
     {
       method: 'GET',
+      headers,
     },
   );
   if (!response.ok) {

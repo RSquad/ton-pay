@@ -118,6 +118,26 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     }
   }, [isOpen, isDragging, currentDetent, sheetHeight, calculateSheetHeight]);
 
+  // When detents prop changes while open, snap to the new detent value
+  useEffect(() => {
+    if (
+      isOpen &&
+      !isClosingRef.current &&
+      !isDragging &&
+      !isSnappingRef.current
+    ) {
+      const viewportHeight = window.innerHeight;
+      const clampedIndex = Math.max(
+        0,
+        Math.min(currentDetent, detents.length - 1),
+      );
+      const newHeight = viewportHeight * detents[clampedIndex];
+      if (Math.abs(sheetHeight - newHeight) > 1) {
+        setSheetHeight(newHeight);
+      }
+    }
+  }, [detents]);
+
   const findNearestDetent = useCallback(
     (position: number): number => {
       const viewportHeight = window.innerHeight;
@@ -596,6 +616,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       <div
         ref={sheetRef}
         className={`bottom-sheet ${className} ${isDragging ? 'dragging' : ''} ${isClosing ? 'closing' : ''}`}
+        data-theme="light"
         style={{
           height: currentHeight,
           maxHeight: maxHeightValue,

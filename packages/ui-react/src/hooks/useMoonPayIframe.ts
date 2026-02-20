@@ -1,11 +1,28 @@
 import * as React from 'react';
-import { createMoonpayTransfer, checkMoonpayAvailability } from '@ton-pay/api';
+import {
+  createMoonpayTransfer,
+  checkMoonpayGeo,
+  checkMoonpayLimits,
+} from '@ton-pay/api';
 import type {
   CreateMoonpayTransferParams,
   MoonpayGeoResult,
   MoonpayAmountLimits,
 } from '@ton-pay/api';
 import type { UseMoonPayIframeOptions } from '../types';
+
+interface MoonPayLimitsResponse {
+  limits?: {
+    quoteCurrency?: {
+      minBuyAmount: number;
+      maxBuyAmount: number;
+    };
+  };
+  quoteCurrency?: {
+    minBuyAmount: number;
+    maxBuyAmount: number;
+  };
+}
 
 export function useMoonPayIframe({
   apiKey,
@@ -21,39 +38,28 @@ export function useMoonPayIframe({
 
   const checkAvailability = React.useCallback(
     async (
-      amount: number,
+      _amount: number,
       asset: string,
       ipAddress: string,
     ): Promise<boolean> => {
-      if (!apiKey) return false;
-
       setLoading(true);
       setError(null);
 
       try {
-        const availability = await checkMoonpayAvailability(
-          { asset, ipAddress },
-          { apiKey, chain },
-        );
-        setGeoResult(availability.geo);
-        setLimits(availability.limits);
+        const geo = await checkMoonpayGeo({ ipAddress }, { chain });
+        setGeoResult(geo);
 
-        if (!availability.geo.isBuyAllowed) {
+        if (!geo.isBuyAllowed) {
           return false;
         }
 
-        const limitsData = availability.limits;
+        const limitRes = (await checkMoonpayLimits(
+          { asset },
+          { chain },
+        )) as MoonPayLimitsResponse;
+        setLimits(limitRes as unknown as MoonpayAmountLimits);
 
-        if (!limitsData?.quoteCurrency) {
-          return false;
-        }
-
-        const { minBuyAmount, maxBuyAmount } = limitsData.quoteCurrency;
-
-        if (amount < minBuyAmount || amount > maxBuyAmount) {
-          return false;
-        }
-
+        // Availability is based on geo only; amount limits are handled on top-up
         return true;
       } catch {
         return false;
@@ -61,20 +67,79 @@ export function useMoonPayIframe({
         setLoading(false);
       }
     },
-    [apiKey, chain],
+    [chain],
   );
 
-  const fetchOnRampLink = React.useCallback(
-    async (params: CreateMoonpayTransferParams): Promise<string> => {
-      if (!apiKey) throw new Error('API Key is required');
-
+  /**
+   * Like checkAvailability but returns limits data alongside the result.
+   * Used by the new card top-up flow to get minBuyAmount for top-up calculation.
+   */
+  const checkAvailabilityWithLimits = React.useCallback(
+    async (
+      _amount: number,
+      asset: string,
+      ipAddress: string,
+    ): Promise<{
+      available: boolean;
+      minBuyAmount?: number;
+      maxBuyAmount?: number;
+    }> => {
       setLoading(true);
       setError(null);
 
       try {
+        const geo = await checkMoonpayGeo({ ipAddress }, { chain });
+        setGeoResult(geo);
+
+        if (!geo.isBuyAllowed) {
+          return { available: false };
+        }
+
+        const limitRes = (await checkMoonpayLimits(
+          { asset },
+          { chain },
+        )) as MoonPayLimitsResponse;
+        setLimits(limitRes as unknown as MoonpayAmountLimits);
+
+        const limitsData = limitRes?.limits || limitRes;
+
+        if (!limitsData?.quoteCurrency) {
+          return { available: false };
+        }
+
+        const { minBuyAmount, maxBuyAmount } = limitsData.quoteCurrency;
+
+        // Availability is based on geo only; amount limits are handled
+        // by calculateTopUpAmount which ensures amount >= minBuyAmount
+        return {
+          available: true,
+          minBuyAmount,
+          maxBuyAmount,
+        };
+      } catch {
+        return { available: false };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [chain],
+  );
+
+  const fetchOnRampLink = React.useCallback(
+    async (
+      params: CreateMoonpayTransferParams,
+    ): Promise<{ link: string; reference: string }> => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const headers: Record<string, string> = {};
+        if (apiKey) {
+          headers['x-api-key'] = apiKey;
+        }
         const response = await createMoonpayTransfer(params, { apiKey, chain });
         setLink(response.link);
-        return response.link;
+        return { link: response.link, reference: response.reference };
       } catch (e) {
         const msg =
           e instanceof Error ? e.message : 'Failed to generate OnRamp link';
@@ -93,6 +158,7 @@ export function useMoonPayIframe({
     link,
     fetchOnRampLink,
     checkAvailability,
+    checkAvailabilityWithLimits,
     geoResult,
     limits,
   };

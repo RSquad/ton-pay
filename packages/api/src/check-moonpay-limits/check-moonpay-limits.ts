@@ -18,7 +18,6 @@ export const checkMoonpayLimits = async (
   const baseUrl = getBaseUrl(options?.chain);
   const headers = {
     'Content-Type': 'application/json',
-    ...(options?.apiKey ? { 'x-api-key': options.apiKey } : {}),
   };
 
   const response = await fetch(`${baseUrl}/api/external/moonpay/limits`, {

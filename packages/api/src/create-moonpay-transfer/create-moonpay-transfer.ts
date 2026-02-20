@@ -13,17 +13,15 @@ import type {
  */
 export const createMoonpayTransfer = async (
   params: CreateMoonpayTransferParams,
-  options: APIOptions,
+  options?: APIOptions,
 ): Promise<CreateMoonpayTransferResponse> => {
-  if (!options?.apiKey) {
-    throw new Error('API key is required for MoonPay transfers');
-  }
-
-  const baseUrl = getBaseUrl(options.chain);
-  const headers = {
+  const baseUrl = getBaseUrl(options?.chain);
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    'x-api-key': options.apiKey,
   };
+  if (options?.apiKey) {
+    headers['x-api-key'] = options.apiKey;
+  }
 
   const response = await fetch(
     `${baseUrl}/api/merchant/v1/create-moonpay-transfer`,

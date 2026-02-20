@@ -24,9 +24,7 @@ export type PayInfo<T extends object = object> = {
 } & T;
 
 export interface TonPayButtonProps {
-  handlePay: (
-    onRequestSent?: (redirectToWallet: () => void) => void,
-  ) => Promise<void>;
+  handlePay: () => Promise<void | any>;
   isLoading?: boolean;
   variant?: TonPayVariant;
   preset?: TonPayPreset;
@@ -46,10 +44,18 @@ export interface TonPayButtonProps {
   disabled?: boolean;
   amount?: number | string;
   currency?: string;
+  asset?: string;
   apiKey?: string;
   isOnRampAvailable?: boolean;
-  onCardPaymentSuccess?: () => void;
+  onCardPaymentSuccess?: (result?: OnRampTransactionResult) => void;
   itemTitle?: string;
+  recipientWalletAddress?: string;
+}
+
+export interface OnRampTransactionResult {
+  reference: string;
+  status: string;
+  txHash: string;
 }
 
 export interface TonPayButtonPresetConfig {
@@ -71,16 +77,57 @@ export interface PaymentModalProps {
   onPayWithCrypto: () => void;
   amount?: string;
   currency?: string;
+  asset?: string;
   itemTitle?: string;
   walletAddress?: string;
+  apiKey?: string;
+  recipientWalletAddress?: string;
   onDisconnect?: () => void;
-  fetchOnRampLink?: (providerId: string) => Promise<string>;
+  fetchOnRampLink?: (
+    providerId: string,
+  ) => Promise<{ link: string; reference: string }>;
   onRampAvailable?: boolean;
-  onPaymentSuccess?: () => void;
-  isLoading?: boolean;
+  onPaymentSuccess?: (result?: OnRampTransactionResult) => void;
+  signlessEnabled?: boolean;
+  signlessApiUrl?: string;
+  onSignlessSetupComplete?: (data: SignlessSetupData) => void;
+  onPendingReferenceChange?: (reference: string | null) => void;
+  onClearPendingTransaction?: () => void;
+  network?: 'mainnet' | 'testnet';
+  /** The payment function to call when balance is sufficient (new card top-up flow) */
+  handlePay?: () => Promise<void | any>;
+  /** User's IP address for MoonPay geo check */
+  userIp?: string;
+  /** MoonPay minimum buy amount (from limits check) */
+  moonpayMinBuyAmount?: number;
+  /** Whether to use legacy card flow (direct to merchant) — default false */
+  legacyCardFlow?: boolean;
+  /** Called when top-up flow is initiated/completed to show waiting indicator below button */
+  onTopUpWaitingChange?: (isWaiting: boolean) => void;
 }
 
-export type PaymentViewState = 'main' | 'card' | 'success' | 'error';
+export interface SignlessSetupData {
+  publicKey: string;
+  walletAddress: string;
+  limit?: number;
+  token?: string;
+}
+
+export type PaymentViewState =
+  | 'main'
+  | 'card'
+  | 'confirming-card'
+  | 'success'
+  | 'error'
+  | 'signless-setup'
+  | 'signless-unlock'
+  | 'insufficient-funds'
+  | 'card-topup'
+  | 'awaiting-deposit'
+  | 'redirecting-moonpay'
+  | 'topup-crypto'
+  | 'topup-confirm'
+  | 'ready-to-pay';
 
 export interface BottomSheetProps {
   isOpen: boolean;
@@ -102,4 +149,39 @@ export interface UseMoonPayIframeOptions {
   apiKey?: string;
   chain?: Chain;
   provider?: OnRampProvider;
+}
+
+export interface SignlessConfig {
+  apiUrl: string;
+  iframeOrigin?: string; // defaults to apiUrl
+}
+
+export interface SignlessPaymentResult {
+  success: boolean;
+  txHash?: string;
+  referenceId: string;
+  error?: string;
+  signature?: string;
+  publicKey?: string;
+}
+
+export interface RegistrationStatus {
+  registered: boolean;
+  customerId?: number;
+  pluginAddress?: string;
+  pluginType?: string;
+  isPluginDeployed?: boolean;
+  isSignlessStopped?: boolean;
+}
+
+export interface TonProofData {
+  network: string;
+  publicKey: string;
+  proof: {
+    timestamp: number;
+    domain: { lengthBytes: number; value: string };
+    signature: string;
+    payload: string;
+    state_init?: string;
+  };
 }
