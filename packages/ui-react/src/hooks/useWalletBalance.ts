@@ -1,19 +1,19 @@
-import * as React from "react";
+import * as React from 'react';
 
-const TONCENTER_MAINNET = "https://toncenter.com";
-const TONCENTER_TESTNET = "https://testnet.toncenter.com";
+const TONCENTER_MAINNET = 'https://toncenter.com';
+const TONCENTER_TESTNET = 'https://testnet.toncenter.com';
 
 /** Estimated gas fees in TON */
 const GAS_FEE_TON_TRANSFER = 0.05;
 const GAS_FEE_JETTON_TRANSFER = 0.1;
 
-function getToncenterEndpoint(network: "mainnet" | "testnet"): string {
-  return network === "testnet" ? TONCENTER_TESTNET : TONCENTER_MAINNET;
+function getToncenterEndpoint(network: 'mainnet' | 'testnet'): string {
+  return network === 'testnet' ? TONCENTER_TESTNET : TONCENTER_MAINNET;
 }
 
 async function fetchTonBalance(
   address: string,
-  network: "mainnet" | "testnet"
+  network: 'mainnet' | 'testnet',
 ): Promise<number> {
   const endpoint = getToncenterEndpoint(network);
   const response = await fetch(
@@ -23,19 +23,19 @@ async function fetchTonBalance(
     throw new Error(`Failed to fetch TON balance: ${response.status}`);
   }
   const data = await response.json();
-  const balanceNano = BigInt(data.balance || "0");
+  const balanceNano = BigInt(data.balance || '0');
   return Number(balanceNano) / 1e9;
 }
 
 async function fetchJettonBalance(
   ownerAddress: string,
   jettonMasterAddress: string,
-  network: "mainnet" | "testnet"
+  network: 'mainnet' | 'testnet',
 ): Promise<number> {
   const endpoint = getToncenterEndpoint(network);
   const response = await fetch(
     `${endpoint}/api/v3/jetton/wallets?owner_address=${encodeURIComponent(
-      ownerAddress
+      ownerAddress,
     )}&jetton_address=${encodeURIComponent(jettonMasterAddress)}&limit=1`
   );
   if (!response.ok) {
@@ -47,7 +47,7 @@ async function fetchJettonBalance(
     return 0;
   }
   const wallet = wallets[0];
-  const rawBalance = wallet.balance || "0";
+  const rawBalance = wallet.balance || '0';
   // Jetton decimals: USDT on TON uses 6 decimals, but we need to handle generically
   // The toncenter v3 API returns raw balance without decimal info
   // We'll use the jetton metadata decimals if available, otherwise default to 9
@@ -57,14 +57,14 @@ async function fetchJettonBalance(
 
 export function getGasFee(asset: string): number {
   const isNativeTon =
-    !asset || asset.toUpperCase() === "TON" || asset === "native";
+    !asset || asset.toUpperCase() === 'TON' || asset === 'native';
   return isNativeTon ? GAS_FEE_TON_TRANSFER : GAS_FEE_JETTON_TRANSFER;
 }
 
 export interface UseWalletBalanceOptions {
   walletAddress?: string;
   asset?: string; // "TON" or jetton master address
-  network?: "mainnet" | "testnet";
+  network?: 'mainnet' | 'testnet';
 }
 
 export interface WalletBalanceState {
@@ -79,8 +79,8 @@ export interface WalletBalanceState {
 
 export function useWalletBalance({
   walletAddress,
-  asset = "TON",
-  network = "mainnet",
+  asset = 'TON',
+  network = 'mainnet',
 }: UseWalletBalanceOptions): WalletBalanceState {
   const [balance, setBalance] = React.useState<number | null>(null);
   const [tonBalance, setTonBalance] = React.useState<number | null>(null);
@@ -89,7 +89,7 @@ export function useWalletBalance({
   const abortRef = React.useRef<AbortController | null>(null);
 
   const isNativeTon = React.useMemo(() => {
-    return !asset || asset.toUpperCase() === "TON" || asset === "native";
+    return !asset || asset.toUpperCase() === 'TON' || asset === 'native';
   }, [asset]);
 
   const fetchBalance = React.useCallback(
@@ -124,7 +124,7 @@ export function useWalletBalance({
           const jettonBal = await fetchJettonBalance(
             walletAddress,
             asset,
-            network
+            network,
           );
           if (controller.signal.aborted) return;
           setBalance(jettonBal);
@@ -132,16 +132,16 @@ export function useWalletBalance({
       } catch (err) {
         if (controller.signal.aborted) return;
         const msg =
-          err instanceof Error ? err.message : "Failed to fetch balance";
+          err instanceof Error ? err.message : 'Failed to fetch balance';
         setError(msg);
-        console.error("[useWalletBalance] Error:", err);
+        console.error('[useWalletBalance] Error:', err);
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
         }
       }
     },
-    [walletAddress, asset, network, isNativeTon]
+    [walletAddress, asset, network, isNativeTon],
   );
 
   // Auto-fetch when walletAddress changes

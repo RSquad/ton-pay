@@ -1,6 +1,6 @@
 {
   "name": "@ton-pay/ui-react",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "React components and hooks for TON Pay SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -61,27 +61,19 @@
       "@telegram-apps/sdk"
     ]
   },
+  "dependencies": {
+    "@telegram-apps/sdk": "^3.11.8",
+    "@ton-pay/api": "^0.3.0",
+    "@tonconnect/sdk": "^3.3.1",
+    "qrcode.react": "^3.1.0"
+  },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "@tonconnect/ui-react": "^2.2.0",
-    "@ton-pay/api": ">=0.1.0",
-    "qrcode.react": "^3.1.0",
-    "@telegram-apps/sdk": "^3.11.8"
-  },
-  "peerDependenciesMeta": {
-    "qrcode.react": {
-      "optional": true
-    },
-    "@telegram-apps/sdk": {
-      "optional": true
-    }
+    "@tonconnect/ui-react": "^2.2.0"
   },
   "devDependencies": {
-    "@telegram-apps/sdk": "^3.11.8",
-    "@tonconnect/sdk": "^3.3.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "qrcode.react": "^3.1.0",
     "react-dom": "18.3.1"
   },
   "keywords": [
