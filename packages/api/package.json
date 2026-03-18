@@ -55,7 +55,7 @@
     "url": "https://github.com/RSquad/ton-pay.git",
     "directory": "packages/api"
   },
-  "homepage": "https://docs.tonpay.tech",
+  "homepage": "https://docs.ton.org/ecosystem/ton-pay",
   "bugs": {
     "url": "https://github.com/RSquad/ton-pay/issues"
   },

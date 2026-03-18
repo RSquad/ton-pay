@@ -76,13 +76,13 @@ export default function PayButton() {
 
 ## Documentation
 
-Complete documentation: [docs.tonpay.tech](https://docs.tonpay.tech)
+Full documentation: [docs.ton.org/ecosystem/ton-pay](https://docs.ton.org/ecosystem/ton-pay)
 
-- [Overview](https://docs.tonpay.tech/overview)
-- [Quick Start](https://docs.tonpay.tech/quick-start)
-- [TonPay Button](https://docs.tonpay.tech/ton-pay-button)
-- [API Reference](https://docs.tonpay.tech/create-transfer)
-- [Webhooks](https://docs.tonpay.tech/webhooks)
+- [Overview](https://docs.ton.org/ecosystem/ton-pay/overview)
+- [Quick Start](https://docs.ton.org/ecosystem/ton-pay/quick-start)
+- [UI Integration](https://docs.ton.org/ecosystem/ton-pay/ui-integration/button-react)
+- [API Reference](https://docs.ton.org/ecosystem/ton-pay/api-reference)
+- [Webhooks](https://docs.ton.org/ecosystem/ton-pay/webhooks)
 
 ## Supported Wallets
 
@@ -113,6 +113,6 @@ Contributions are welcome. Please submit a Pull Request.
 
 ## Support
 
-- Documentation: [docs.tonpay.tech](https://docs.tonpay.tech)
+- Documentation: [docs.ton.org/ecosystem/ton-pay](https://docs.ton.org/ecosystem/ton-pay)
 - Issues: [GitHub Issues](https://github.com/RSquad/ton-pay/issues)
 - Repository: [github.com/RSquad/ton-pay](https://github.com/RSquad/ton-pay)
