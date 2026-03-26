@@ -34,12 +34,8 @@
     "clean": true,
     "platform": "browser"
   },
-  "dependencies": {
-    "crypto-js": "^4.2.0"
-  },
-  "devDependencies": {
-    "@types/crypto-js": "^4.2.0"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "peerDependencies": {},
   "keywords": [
     "ton",
