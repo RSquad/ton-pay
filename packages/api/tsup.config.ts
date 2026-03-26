@@ -8,6 +8,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   platform: 'browser',
-  noExternal: ['crypto-js'],
   tsconfig: './tsconfig.json',
 });
