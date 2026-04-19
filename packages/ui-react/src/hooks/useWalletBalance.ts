@@ -48,10 +48,27 @@ async function fetchJettonBalance(
   }
   const wallet = wallets[0];
   const rawBalance = wallet.balance || '0';
-  // Jetton decimals: USDT on TON uses 6 decimals, but we need to handle generically
-  // The toncenter v3 API returns raw balance without decimal info
-  // We'll use the jetton metadata decimals if available, otherwise default to 9
-  const decimals = wallet.jetton?.decimals ?? 9;
+  // toncenter v3 returns `wallet.jetton` as the jetton master address STRING,
+  // not an object — so `wallet.jetton?.decimals` is always undefined and the
+  // fallback-to-9 branch always wins. That renders any jetton with decimals≠9
+  // at the wrong magnitude (USDT, 6 decimals, shows 1000× smaller than reality
+  // — a 20 USDT balance displays as 0.02 USDT).
+  //
+  // Decimals actually live in `data.metadata[masterAddr].token_info[0].extra
+  // .decimals` as a string. We try that first, fall back to the legacy object
+  // shape (future-proofing in case the response evolves), and finally to 9.
+  let decimals = 9;
+  const masterAddr =
+    typeof wallet.jetton === 'string' ? wallet.jetton : null;
+  const fromMetadata = masterAddr
+    ? data?.metadata?.[masterAddr]?.token_info?.[0]?.extra?.decimals
+    : undefined;
+  if (fromMetadata != null) {
+    const parsed = Number(fromMetadata);
+    if (Number.isFinite(parsed)) decimals = parsed;
+  } else if (typeof wallet.jetton?.decimals === 'number') {
+    decimals = wallet.jetton.decimals;
+  }
   return Number(BigInt(rawBalance)) / Math.pow(10, decimals);
 }
 
